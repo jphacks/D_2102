@@ -1,0 +1,13 @@
+version: '3'
+services: 
+  front_app: 
+    build: .
+    environment: 
+      # - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    volumes: 
+      - ./:/usr/src/front
+    # command: sh -c 'cd front_app && yarn start'
+    ports: 
+      - '3000:3000'
+    tty: true

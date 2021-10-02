@@ -1,0 +1,10 @@
+version: '3.6'
+services:
+  server_app:
+    image: openjdk:15
+    ports:
+      - 8889:8889
+    tty: true
+    volumes:
+      - ./server_app:/srv:cached
+    working_dir: /srv
