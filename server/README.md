@@ -25,4 +25,4 @@ docker-compose up -d
 docker-compose exec server_app /bin/bash
 ./mvnw spring-boot:run
 ```
-Access http://localhost:8089/ with any browser.
+Access http://localhost:8889/ with API Tester.
