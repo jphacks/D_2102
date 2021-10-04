@@ -43,6 +43,4 @@ export const authSlice = createSlice({
   ),
 });
 
-export const selectLoginUser = (state: RootState) => state.auth.LOGIN_USER;
-
 export default authSlice.reducer;
