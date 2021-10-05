@@ -1,7 +1,7 @@
 /*authSlice.ts*/
 export interface LOGIN_USER {
   id: number;
-  userName: stritng;
+  userName: string;
 }
 export interface CRED {
   userId: string;
