@@ -1,11 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState } from "../../../app/store";
 import axios from "axios";
-import {
-  LOGIN_USER,
-  CRED,
-  JWT
-} from "../types";
+import { LOGIN_USER, CRED, JWT } from "../types";
 
 export const fetchAsyncLogin = createAsyncThunk(
   "auth/login",
@@ -24,15 +20,15 @@ export const fetchAsyncLogin = createAsyncThunk(
 );
 
 const initialState: LOGIN_USER = {
-  id: 0;
-  userName: "";
+  id: 0,
+  userName: "",
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
-  extraReducers: (builder) => (
+  extraReducers: (builder) => {
     builder.addCase(
       fetchAsyncLogin.fulfilled,
       (state, action: PayloadAction<JWT>) => {
@@ -40,7 +36,7 @@ export const authSlice = createSlice({
         action.payload.access && (window.location.href = "/student/");
       }
     );
-  ),
+  },
 });
 
 export default authSlice.reducer;
