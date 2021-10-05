@@ -1,5 +1,17 @@
 version: '3.6'
 services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    hostname: dbserver
+    volumes:
+      - ./mysql/volumes:/var/lib/mysql
+    environment: # mysqlの各々パラメータ設定
+      MYSQL_DATABASE: jphacks2021db
+      MYSQL_USER: jphacks2021
+      MYSQL_PASSWORD: jphacks2021
+      MYSQL_ROOT_PASSWORD: root
   server_app:
     image: openjdk:15
     ports:
