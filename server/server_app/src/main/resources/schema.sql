@@ -1,6 +1,7 @@
 
 DROP TABLE IF EXISTS comment_image;
 DROP TABLE IF EXISTS question_group;
+DROP TABLE IF EXISTS comment_vote;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS course_director;
 DROP TABLE IF EXISTS group_director;
@@ -114,9 +115,18 @@ CREATE TABLE IF NOT EXISTS question_group(
     foreign key (question_comment_id) references comments(comment_id)
 );
 
+CREATE TABLE IF NOT EXISTS comment_vote(
+    comment_id integer NOT NULL,
+    users_id integer NOT NULL,
+    created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    foreign key (comment_id) references comments(comment_id),
+    foreign key (users_id) references users(users_id)
+);
+
 
 CREATE TABLE IF NOT EXISTS comment_image(
-    comment_image_id integer PRIMARY KEY AUTO_INCREMENT,
+    commen_image_id integer PRIMARY KEY AUTO_INCREMENT,
     comment_id integer NOT NULL,
     comment_image_path varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     foreign key (comment_id) references comments(comment_id)
