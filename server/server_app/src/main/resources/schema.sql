@@ -1,8 +1,11 @@
 
 DROP TABLE IF EXISTS comment_image;
+DROP TABLE IF EXISTS question_group;
+DROP TABLE IF EXISTS comment_vote;
 DROP TABLE IF EXISTS comments;
-DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS course_director;
+DROP TABLE IF EXISTS group_director;
+DROP TABLE IF EXISTS student_group;
 DROP TABLE IF EXISTS news;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS subjects;
@@ -37,10 +40,10 @@ CREATE TABLE IF NOT EXISTS subjects(
     foreign key (schools_id) references schools(schools_id)
 );
 
-CREATE TABLE IF NOT EXISTS groups(
-    group_id integer PRIMARY KEY AUTO_INCREMENT,
-    group_name varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-    gropu_grade integer NOT NULL,
+CREATE TABLE IF NOT EXISTS student_group(
+    student_group_id integer PRIMARY KEY AUTO_INCREMENT,
+    student_group_name varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+    student_group_grade integer NOT NULL,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -62,11 +65,11 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS group_director(
     subjects_id integer NOT NULL,
-    group_id integer NOT NULL,
+    student_group_id integer NOT NULL,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     foreign key (subjects_id) references subjects(subjects_id),
-    foreign key (group_id) references groups(group_id)
+    foreign key (student_group_id) references student_group(student_group_id)
 );
 
 CREATE TABLE IF NOT EXISTS course_director(
@@ -112,9 +115,18 @@ CREATE TABLE IF NOT EXISTS question_group(
     foreign key (question_comment_id) references comments(comment_id)
 );
 
+CREATE TABLE IF NOT EXISTS comment_vote(
+    comment_id integer NOT NULL,
+    users_id integer NOT NULL,
+    created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    foreign key (comment_id) references comments(comment_id),
+    foreign key (users_id) references users(users_id)
+);
+
 
 CREATE TABLE IF NOT EXISTS comment_image(
-    comment_image_id integer PRIMARY KEY AUTO_INCREMENT,
+    commen_image_id integer PRIMARY KEY AUTO_INCREMENT,
     comment_id integer NOT NULL,
     comment_image_path varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     foreign key (comment_id) references comments(comment_id)
