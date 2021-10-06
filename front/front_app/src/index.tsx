@@ -7,13 +7,15 @@ import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import { Route, BrowserRouter } from "react-router-dom";
 import Auth from "./features/auth/Auth";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
+      <CssBaseline />
       <div>
-        <Route exact path="/" component={Auth} />
-        <Route exact path="/student/" component={App} />
+        <Route exact path="/login" component={Auth} />
+        <App />
       </div>
     </BrowserRouter>
   </Provider>,
