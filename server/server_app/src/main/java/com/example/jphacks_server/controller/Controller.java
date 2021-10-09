@@ -2,6 +2,8 @@ package com.example.jphacks_server.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.jphacks_server.entity.Users;
+import com.example.jphacks_server.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,10 @@ import java.util.Map;
 public class Controller {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+    private UsersService usersService = new UsersService();
+
+
 
     private static final Long EXPIRATION_TIME = 1000L * 60L * 10L;
 
@@ -26,8 +31,14 @@ public class Controller {
     Date expiresAt = new Date(issuedAt.getTime() + EXPIRATION_TIME);
 
 
-
     @RequestMapping("/")
+    public List<Users> usersAll(){
+        return usersService.findAll();
+    }
+
+
+
+    @RequestMapping("/auth")
     public String home() {
         List<Map<String, Object>> schools = jdbcTemplate.queryForList("select * from schools");
 
