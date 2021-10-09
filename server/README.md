@@ -25,4 +25,11 @@ docker-compose up -d
 docker-compose exec server_app /bin/bash
 ./mvnw spring-boot:run
 ```
+
+### When using MySQL...
+```
+docker exec -it server_db_1  /bin/bash
+```
+
+
 Access http://localhost:8889/ with API Tester.
