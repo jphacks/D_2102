@@ -51,16 +51,15 @@ CREATE TABLE IF NOT EXISTS student_group(
 
 CREATE TABLE IF NOT EXISTS users(
     users_id integer PRIMARY KEY AUTO_INCREMENT,
-    schools_id integer NOT NULL,ß
-    users_name integer NOT NULL,
-    users_image_path varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+    schools_id integer NOT NULL,
+    users_name varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+    users_image_path varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
     users_login_id varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     users_login_password varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     student_group_id integer,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    foreign key (schools_id) references schools(schools_id),
-
+    foreign key (schools_id) references schools(schools_id)
 );
 
 

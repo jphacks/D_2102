@@ -18,14 +18,14 @@ INSERT INTO student_group(
 );
 
 INSERT INTO users(
-    users_name, school_id, users_login_id, users_password, student_group_id
+    schools_id, users_name, users_login_id, users_login_password, student_group_id
 ) values(
-    "佐藤瞳", 1, "st00002","password", 1
+    1, "佐藤瞳","st00002","password", 1
 );
 
 
 INSERT INTO users(
-    users_name, school_id, users_login_id, users_password, student_group_id
+    schools_id, users_name, users_login_id, users_login_password, student_group_id
 ) values(
-    "田中智", 1, "st00001","password", 1
+    1, "田中智", "st00001","password", 1
 );
