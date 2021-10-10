@@ -7,6 +7,7 @@ services:
     hostname: dbserver
     volumes:
       - ./mysql/volumes:/var/lib/mysql
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --default-time-zone=Asia/Tokyo
     environment: # mysqlの各々パラメータ設定
       MYSQL_DATABASE: jphacks2021db
       MYSQL_USER: jphacks2021
