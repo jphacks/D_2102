@@ -1,6 +1,8 @@
 import React from "react";
 
-import { styled, useTheme } from "@mui/material/styles";
+import styles from "./Default.module.css";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { styled, Theme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -15,20 +17,14 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { createMuiTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+import HelpIcon from "@mui/icons-material/Help";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import SensorDoorRoundedIcon from "@mui/icons-material/SensorDoorRounded";
+import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 
 const drawerWidth = 240;
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#0679EB",
-    },
-  },
-});
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -79,7 +75,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export const Default = () => {
+export const Default: React.FC = () => {
+  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -90,79 +87,106 @@ export const Default = () => {
     setOpen(false);
   };
 
+  const Logout = () => {
+    localStorage.removeItem("localJWT");
+    window.location.href = "/login";
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <Box sx={{ display: "flex" }}>
-          <AppBar position="fixed" open={open}>
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                edge="start"
-                sx={{ mr: 2, ...(open && { display: "none" }) }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                ロゴが入ります
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            sx={{
+    <div>
+      <Box sx={{ display: "flex" }}>
+        <AppBar
+          position="fixed"
+          open={open}
+          style={{ backgroundColor: "#0679EB" }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: "none" }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              ロゴが入ります
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
               width: drawerWidth,
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                width: drawerWidth,
-                boxSizing: "border-box",
-              },
-            }}
-            variant="persistent"
-            anchor="left"
-            open={open}
-          >
-            <DrawerHeader>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === "ltr" ? (
-                  <ChevronLeftIcon />
-                ) : (
-                  <ChevronRightIcon />
-                )}
-              </IconButton>
-            </DrawerHeader>
-            <Divider />
-            <List>
-              {["Inbox", "Starred", "Send email", "Drafts"].map(
-                (text, index) => (
-                  <ListItem button key={text}>
-                    <ListItemIcon>
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                )
+              boxSizing: "border-box",
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
               )}
-            </List>
-            <Divider />
-            <List>
-              {["All mail", "Trash", "Spam"].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-          </Drawer>
-          <Main open={open}>
-            <DrawerHeader />
-          </Main>
-        </Box>
-      </div>
-    </ThemeProvider>
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <HomeRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="ホーム" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <NotificationsRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="通知" />
+            </ListItem>
+            {["1年数学", "1年国語", "1年理科", "1年社会"].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  <SensorDoorRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary={text + "の部屋"} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            <ListItem button onClick={Logout}>
+              <ListItemIcon>
+                <SettingsRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="設定" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <HelpIcon />
+              </ListItemIcon>
+              <ListItemText primary="使い方" />
+            </ListItem>
+            <ListItem button onClick={Logout}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="ログアウト" />
+            </ListItem>
+          </List>
+        </Drawer>
+        <Main open={open}>
+          <DrawerHeader />
+        </Main>
+      </Box>
+    </div>
   );
 };
 
