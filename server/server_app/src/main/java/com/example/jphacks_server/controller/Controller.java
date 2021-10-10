@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,10 @@ public class Controller {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private UsersService usersService = new UsersService();
+
+
+    @Autowired
+    private UsersService usersService;
 
 
 

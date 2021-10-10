@@ -1,88 +1,90 @@
 package com.example.jphacks_server.entity;
 
+import javax.swing.tree.RowMapper;
 import java.time.LocalDateTime;
+import java.util.Date;
 
-public class Users {
+public class Users{
 
-    private int users_id;
-    private int schools_id;
-    private String users_name;
-    private String users_image_path;
-    private String users_login_id;
-    private String users_login_password;
-    private int student_group_id;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private int usersId;
+    private int schoolsId;
+    private String usersName;
+    private String usersImagePath;
+    private String usersLoginId;
+    private String usersLoginPassword;
+    private int studentGroupId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public int getUsers_id() {
-        return users_id;
+    public int getUsersId() {
+        return usersId;
     }
 
-    public void setUsers_id(int users_id) {
-        this.users_id = users_id;
+    public void setUsersId(int usersId) {
+        this.usersId = usersId;
     }
 
-    public int getSchools_id() {
-        return schools_id;
+    public int getSchoolsId() {
+        return schoolsId;
     }
 
-    public void setSchools_id(int schools_id) {
-        this.schools_id = schools_id;
+    public void setSchoolsId(int schoolsId) {
+        this.schoolsId = schoolsId;
     }
 
-    public String getUsers_name() {
-        return users_name;
+    public String getUsersName() {
+        return usersName;
     }
 
-    public void setUsers_name(String users_name) {
-        this.users_name = users_name;
+    public void setUsersName(String usersName) {
+        this.usersName = usersName;
     }
 
-    public String getUsers_image_path() {
-        return users_image_path;
+    public String getUsersImagePath() {
+        return usersImagePath;
     }
 
-    public void setUsers_image_path(String users_image_path) {
-        this.users_image_path = users_image_path;
+    public void setUsersImagePath(String usersImagePath) {
+        this.usersImagePath = usersImagePath;
     }
 
-    public String getUsers_login_id() {
-        return users_login_id;
+    public String getUsersLoginId() {
+        return usersLoginId;
     }
 
-    public void setUsers_login_id(String users_login_id) {
-        this.users_login_id = users_login_id;
+    public void setUsersLoginId(String usersLoginId) {
+        this.usersLoginId = usersLoginId;
     }
 
-    public String getUsers_login_password() {
-        return users_login_password;
+    public String getUsersLoginPassword() {
+        return usersLoginPassword;
     }
 
-    public void setUsers_login_password(String users_login_password) {
-        this.users_login_password = users_login_password;
+    public void setUsersLoginPassword(String usersLoginPassword) {
+        this.usersLoginPassword = usersLoginPassword;
     }
 
-    public int getStudent_group_id() {
-        return student_group_id;
+    public int getStudentGroupId() {
+        return studentGroupId;
     }
 
-    public void setStudent_group_id(int student_group_id) {
-        this.student_group_id = student_group_id;
+    public void setStudentGroupId(int studentGroupId) {
+        this.studentGroupId = studentGroupId;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdated_at() {
-        return updated_at;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS users(
     users_id integer PRIMARY KEY AUTO_INCREMENT,
     schools_id integer NOT NULL,
     users_name varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-    users_image_path varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+    users_image_path varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
     users_login_id varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     users_login_password varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     student_group_id integer,
