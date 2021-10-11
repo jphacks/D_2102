@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import { Route, BrowserRouter } from "react-router-dom";
 
 import Auth from "./features/auth/Auth";
+import Home from "./features/home/Home";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -27,7 +27,7 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <div>
           <Route exact path="/login" component={Auth} />
-          <App />
+          <Route exact path="/home" component={Home} />
         </div>
       </ThemeProvider>
     </BrowserRouter>

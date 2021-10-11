@@ -1,10 +1,11 @@
 import React from "react";
+import App from "../../App";
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <App>
       <h1>home</h1>
-    </div>
+    </App>
   );
 };
 

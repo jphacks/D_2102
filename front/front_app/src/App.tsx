@@ -80,8 +80,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
+export interface Menu {
+  children: React.ReactNode;
+}
 
-export const App: React.FC = () => {
+export const App: React.FC = ({ children }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -215,9 +218,7 @@ export const App: React.FC = () => {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          <Switch>
-            <Route exact path="/home" component={Home} />
-          </Switch>
+          {children}
         </Main>
       </Box>
     </div>
