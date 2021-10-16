@@ -60,8 +60,8 @@ public class UsersService {
                     .withExpiresAt(expiresAt)    //"exp" : Expiration Time
                     //private claims
                     //private claims
-//                    .withClaim("X-AUTHORITIES", "aaa")
-//                    .withClaim("X-USERNAME", "bbb")
+                    //.withClaim("X-AUTHORITIES", "aaa")
+                    //.withClaim("X-USERNAME", "bbb")
                     .sign(algorithm);
             System.out.println("generate token : " + token);
             return token;
