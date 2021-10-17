@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS news(
     news_id integer PRIMARY KEY AUTO_INCREMENT,
     users_id integer NOT NULL,
     student_group_id integer NOT NULL,
-    news_subject integer NOT NULL,
+    news_subject varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     news_text varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
