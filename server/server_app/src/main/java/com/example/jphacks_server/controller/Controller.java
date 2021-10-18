@@ -4,8 +4,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.jphacks_server.entity.Users;
 import com.example.jphacks_server.service.UsersService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +32,14 @@ public class Controller {
     @Autowired
     private UsersService usersService;
 
+
+    HttpHeaders responseHeaders = new HttpHeaders();
+
+    public Controller(){
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+    }
+
+
     @RequestMapping("/")
     public List<Users> usersAll(){
         return usersService.findAll();
@@ -39,21 +52,31 @@ public class Controller {
 
 
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Users usersData) {
-        String usersId = usersService.login(usersData.getUsersLoginId(), usersData.getUsersLoginPassword());
-        String token = usersService.createToken(usersId);
+        String token = usersService.login(usersData.getUsersLoginId(), usersData.getUsersLoginPassword());
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
 
-        if(token == null) return ResponseEntity.badRequest().body("Token生成できない");
+        if(token == null){
+            root.put("status", "failed");
+            responseHeaders.remove("Authorization");
+        }else{
+            root.put("status", "success");
+            responseHeaders.set("Authorization", token);
+        }
 
-        HttpHeaders responseHeaders = new HttpHeaders();
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(root), responseHeaders, HttpStatus.OK);
 
-        responseHeaders.set("Authorization",
-                usersService.createToken(usersId));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
-        return ResponseEntity.ok()
-                .headers(responseHeaders)
-                .body("Response with header using ResponseEntity");
+        return  responseEntity;
+
+
 
 
     }
