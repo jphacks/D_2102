@@ -30,13 +30,17 @@ public class UsersService {
     public String login(String id, String password){
         String query = "SELECT * from users where users_login_id = ? and users_login_password = ?";
         List<Users> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Users.class), id, password);
-        String usersId = String.valueOf(users.get(0).getUsersId());
-        return usersId;
-
+        String token = null;
+        System.out.println(users.size());
+        if(users.size() != 0){
+            String usersId = String.valueOf(users.get(0).getUsersId());
+            token = createToken(usersId);
+        }
+        return token;
     }
 
 
-    public String createToken(String subject) {
+    private String createToken(String subject) {
 
 
         String secretKey = "panda";
@@ -48,7 +52,6 @@ public class UsersService {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         try {
-
             String token = JWT.create()
                     // registered claims
                     //.withJWTId("jwtId")        //"jti" : JWT ID
@@ -60,8 +63,8 @@ public class UsersService {
                     .withExpiresAt(expiresAt)    //"exp" : Expiration Time
                     //private claims
                     //private claims
-//                    .withClaim("X-AUTHORITIES", "aaa")
-//                    .withClaim("X-USERNAME", "bbb")
+                    //.withClaim("X-AUTHORITIES", "aaa")
+                    //.withClaim("X-USERNAME", "bbb")
                     .sign(algorithm);
             System.out.println("generate token : " + token);
             return token;

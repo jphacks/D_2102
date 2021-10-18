@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS course_director;
 DROP TABLE IF EXISTS group_director;
 DROP TABLE IF EXISTS student_group;
+DROP TABLE IF EXISTS news_checked;
 DROP TABLE IF EXISTS news;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS subjects;
@@ -86,11 +87,21 @@ CREATE TABLE IF NOT EXISTS course_director(
 CREATE TABLE IF NOT EXISTS news(
     news_id integer PRIMARY KEY AUTO_INCREMENT,
     users_id integer NOT NULL,
-    news_subject integer NOT NULL,
+    student_group_id integer NOT NULL,
+    news_subject varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     news_text varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-    news_is_checked integer default 0,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    foreign key (users_id) references users(users_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS news_checked(
+    news_id integer NOT NULL,
+    users_id integer NOT NULL,
+    created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    foreign key (news_id) references news(news_id),
     foreign key (users_id) references users(users_id)
 );
 
