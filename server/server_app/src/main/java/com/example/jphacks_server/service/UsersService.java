@@ -32,7 +32,6 @@ public class UsersService {
         List<Users> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Users.class), id, password);
         String usersId = String.valueOf(users.get(0).getUsersId());
         return usersId;
-
     }
 
 
@@ -48,7 +47,6 @@ public class UsersService {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         try {
-
             String token = JWT.create()
                     // registered claims
                     //.withJWTId("jwtId")        //"jti" : JWT ID

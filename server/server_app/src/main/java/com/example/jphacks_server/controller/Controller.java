@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,22 +18,22 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class Controller {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     @Autowired
     private UsersService usersService;
 
-
-
-
-
-
     @RequestMapping("/")
     public List<Users> usersAll(){
+        return usersService.findAll();
+    }
+
+    @PostMapping("/user")
+    public List<Users> usersPage(){
         return usersService.findAll();
     }
 

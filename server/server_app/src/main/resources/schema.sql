@@ -97,10 +97,11 @@ CREATE TABLE IF NOT EXISTS news(
 
 
 CREATE TABLE IF NOT EXISTS news_checked(
-    news_id integer PRIMARY KEY AUTO_INCREMENT,
+    news_id integer NOT NULL,
     users_id integer NOT NULL,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    foreign key (news_id) references news(news_id),
     foreign key (users_id) references users(users_id)
 );
 
