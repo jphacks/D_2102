@@ -3,6 +3,7 @@ package com.example.jphacks_server.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.jphacks_server.entity.Users;
+import com.example.jphacks_server.service.LoginService;
 import com.example.jphacks_server.service.UsersService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,11 +34,9 @@ public class Controller {
     private UsersService usersService;
 
 
-    HttpHeaders responseHeaders = new HttpHeaders();
+    @Autowired
+    private LoginService loginService;
 
-    public Controller(){
-        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-    }
 
 
     @RequestMapping("/")
@@ -53,31 +52,7 @@ public class Controller {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Users usersData) {
-        String token = usersService.login(usersData.getUsersLoginId(), usersData.getUsersLoginPassword());
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode root = mapper.createObjectNode();
-
-        if(token == null){
-            root.put("status", "failed");
-            responseHeaders.remove("Authorization");
-        }else{
-            root.put("status", "success");
-            responseHeaders.set("Authorization", token);
-        }
-
-        ResponseEntity<String> responseEntity = null;
-        try {
-            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(root), responseHeaders, HttpStatus.OK);
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return  responseEntity;
-
-
-
-
+    public ResponseEntity<String> loginControl(@RequestBody Users usersData) {
+        return loginService.login(usersData);
     }
 }
