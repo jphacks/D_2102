@@ -31,7 +31,10 @@ const useStyles = makeStyles((theme: any) => ({
 export const Auth: React.FC = () => {
   const classes = useStyles();
   const dispatch: AppDispatch = useDispatch();
-  const [credential, setCredential] = useState({ userId: "", password: "" });
+  const [credential, setCredential] = useState({
+    usersLoginId: "",
+    usersLoginPassword: "",
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -40,7 +43,7 @@ export const Auth: React.FC = () => {
   };
 
   const login = async () => {
-    //await dispatch(fetchAsyncLogin(credential));
+    await dispatch(fetchAsyncLogin(credential));
   };
 
   return (
@@ -61,7 +64,7 @@ export const Auth: React.FC = () => {
               label="ID"
               type="text"
               name="userId"
-              value={credential.userId}
+              value={credential.usersLoginId}
               autoFocus
               onChange={handleInputChange}
             />
@@ -73,7 +76,7 @@ export const Auth: React.FC = () => {
               label="パスワード"
               type="password"
               name="password"
-              value={credential.password}
+              value={credential.usersLoginPassword}
               onChange={handleInputChange}
               autoComplete="current-password"
             />

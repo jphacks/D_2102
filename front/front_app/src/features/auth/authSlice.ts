@@ -7,7 +7,7 @@ export const fetchAsyncLogin = createAsyncThunk(
   "auth/login",
   async (auth: CRED) => {
     const res = await axios.post<JWT>(
-      `${process.env.REACT_APP_API_URL}/authen/jwt/create`,
+      `${process.env.REACT_APP_API_URL}/api/login`,
       auth,
       {
         headers: {
@@ -20,8 +20,8 @@ export const fetchAsyncLogin = createAsyncThunk(
 );
 
 const initialState: LOGIN_USER = {
-  id: 0,
-  userName: "",
+  usersLoginId: "",
+  usersLoginPassword: "",
 };
 
 export const authSlice = createSlice({
@@ -32,8 +32,8 @@ export const authSlice = createSlice({
     builder.addCase(
       fetchAsyncLogin.fulfilled,
       (state, action: PayloadAction<JWT>) => {
-        localStorage.setItem("localJWT", action.payload.access);
-        action.payload.access && (window.location.href = "/student/");
+        localStorage.setItem("localJWT", action.payload.authorization);
+        action.payload.authorization && (window.location.href = "/home");
       }
     );
   },
