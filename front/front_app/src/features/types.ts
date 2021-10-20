@@ -1,13 +1,12 @@
 /*authSlice.ts*/
 export interface LOGIN_USER {
-  id: number;
-  userName: string;
+  usersLoginId: string;
+  usersLoginPassword: string;
 }
 export interface CRED {
-  userId: string;
-  password: string;
+  usersLoginId: string;
+  usersLoginPassword: string;
 }
 export interface JWT {
-  refresh: string;
-  access: string;
+  authorization: string;
 }
