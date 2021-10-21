@@ -31,27 +31,14 @@ let rows = new Array(5).fill("");
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
-    margin: theme.spacing(0, 3),
+    padding: theme.spacing(1.5, 3),
+    margin: theme.spacing(3, 0),
   },
-  small: {
-    width: theme.spacing(5),
-    height: theme.spacing(5),
+  icon: {
+    padding: theme.spacing(0, 1, 0, 0),
   },
-  saveModal: {
-    marginTop: theme.spacing(4),
-    marginLeft: theme.spacing(2),
-  },
-  paper: {
-    position: "absolute",
-    textAlign: "center",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  mainPaper: {
-    padding: theme.spacing(2),
-    marginLeft: theme.spacing(3),
+  new: {
+    marginTop: theme.spacing(5),
   },
 }));
 
@@ -100,7 +87,7 @@ const Home: React.FC = () => {
               // );
             }}
           >
-            <MailOutlineIcon />
+            <MailOutlineIcon className={classes.icon} />
             受け取りBOX
           </Button>
         </Grid>
@@ -143,14 +130,35 @@ const Home: React.FC = () => {
               // );
             }}
           >
-            <NotificationsNoneIcon />
+            <NotificationsNoneIcon className={classes.icon} />
             お知らせBOX
           </Button>
         </Grid>
       </Grid>
-      <Grid container>
+      <Grid container className={classes.new}>
         <Grid item xs={12}>
-          <Paper className={classes.mainPaper}>aaaa</Paper>
+          <h2 className={styles.home__h2_new}>新着の投稿</h2>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    hover
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.calories}</TableCell>
+                    <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell align="right">{row.carbs}</TableCell>
+                    <TableCell align="right">{row.protein}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
       </Grid>
     </App>
