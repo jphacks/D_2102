@@ -19,8 +19,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+
 public class LoginService {
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     HttpHeaders responseHeaders = new HttpHeaders();
 
     public LoginService(){
@@ -29,23 +32,20 @@ public class LoginService {
 
 
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    private static final Long EXPIRATION_TIME = 1000L * 60L * 10L;
-
     public ResponseEntity<String> login(Users usersData){
         String query = "SELECT * from users where users_login_id = ? and users_login_password = ?";
-        List<Users> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Users.class), usersData.getUsersLoginId(), usersData.getUsersLoginPassword());
         String token = null;
-        System.out.println(users.size());
-        if(users.size() != 0){
-            String usersId = String.valueOf(users.get(0).getUsersId());
-            token = createToken(usersId);
-        }
+
+        List<Users> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Users.class), usersData.getUsersLoginId(), usersData.getUsersLoginPassword());
+
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();
+
+        if(users.size() != 0){
+            String usersId = String.valueOf(users.get(0).getUsersId());
+            token = JwtToken.createToken(usersId);
+        }
 
         if(token == null){
             root.put("status", "failed");
@@ -58,8 +58,7 @@ public class LoginService {
         ResponseEntity<String> responseEntity = null;
         try {
             responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(root), responseHeaders, HttpStatus.OK);
-        } catch (
-                JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
@@ -67,40 +66,4 @@ public class LoginService {
 
     }
 
-
-
-    private String createToken(String subject) {
-
-
-        String secretKey = "panda";
-        Date issuedAt = new Date();
-        Date notBefore = new Date(issuedAt.getTime());
-        Date expiresAt = new Date(issuedAt.getTime() + EXPIRATION_TIME);
-
-
-        Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
-        try {
-            String token = JWT.create()
-                    // registered claims
-                    //.withJWTId("jwtId")        //"jti" : JWT ID
-                    //.withAudience("audience")  //"aud" : Audience
-                    //.withIssuer("issuer")      //"iss" : Issuer
-                    .withSubject(subject)         //"sub" : Subject
-                    .withIssuedAt(issuedAt)      //"iat" : Issued At
-                    .withNotBefore(notBefore)    //"nbf" : Not Before
-                    .withExpiresAt(expiresAt)    //"exp" : Expiration Time
-                    //private claims
-                    //private claims
-                    //.withClaim("X-AUTHORITIES", "aaa")
-                    //.withClaim("X-USERNAME", "bbb")
-                    .sign(algorithm);
-            System.out.println("generate token : " + token);
-            return token;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }

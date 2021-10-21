@@ -14,7 +14,12 @@ INSERT INTO schools(
 INSERT INTO student_group(
     student_group_name, student_group_grade
 ) values(
-    "3-8", 3
+    "3-1", 3
+);
+INSERT INTO users(
+    schools_id, users_name, users_login_id, users_login_password, student_group_id
+) values(
+    1, "田中智", "st00001","password", 1
 );
 
 INSERT INTO users(
@@ -24,11 +29,7 @@ INSERT INTO users(
 );
 
 
-INSERT INTO users(
-    schools_id, users_name, users_login_id, users_login_password, student_group_id
-) values(
-    1, "田中智", "st00001","password", 1
-);
+
 
 
 INSERT INTO users(
@@ -54,6 +55,18 @@ INSERT INTO news_checked(
     news_id, users_id
 ) values(
     1, 1
+);
+
+INSERT INTO news_checked(
+    news_id, users_id
+) values(
+    1, 2
+);
+
+INSERT INTO news_checked(
+    news_id, users_id
+) values(
+    2, 2
 );
 
 INSERT INTO student_group(
