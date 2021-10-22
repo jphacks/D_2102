@@ -3,10 +3,7 @@ package com.example.jphacks_server.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.jphacks_server.entity.Users;
-import com.example.jphacks_server.service.JwtToken;
-import com.example.jphacks_server.service.LoginService;
-import com.example.jphacks_server.service.NewsService;
-import com.example.jphacks_server.service.UsersService;
+import com.example.jphacks_server.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -43,6 +40,9 @@ public class Controller {
     private UsersService usersService;
 
     @Autowired
+    private SubjectService subjectService;
+
+    @Autowired
     private NewsService newsService;
 
 
@@ -65,6 +65,17 @@ public class Controller {
         if(JwtToken.verify(responseHeader, id)){
             requestHeaders.set("Authorization", responseHeader);
             return usersService.findAll(id, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
+    @GetMapping("/subject/{id}")
+    public ResponseEntity<String> subjectControl(@PathVariable String id, HttpServletRequest httpRequest){
+        String responseHeader = httpRequest.getHeader("Authorization");
+        if(JwtToken.verify(responseHeader, id)){
+            requestHeaders.set("Authorization", responseHeader);
+            return subjectService.subjectAll(id, requestHeaders);
         }else{
             return createFailedJson();
         }
