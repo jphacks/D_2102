@@ -12,9 +12,14 @@ public class Users{
     private String usersImagePath;
     private String usersLoginId;
     private String usersLoginPassword;
+    private String schoolsName;
+    private String studentGroupName;
+    private int studentGroupGrade;
     private int studentGroupId;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
 
     public int getUsersId() {
         return usersId;
@@ -62,6 +67,30 @@ public class Users{
 
     public void setUsersLoginPassword(String usersLoginPassword) {
         this.usersLoginPassword = usersLoginPassword;
+    }
+
+    public String getSchoolsName() {
+        return schoolsName;
+    }
+
+    public void setSchoolsName(String schoolsName) {
+        this.schoolsName = schoolsName;
+    }
+
+    public String getStudentGroupName() {
+        return studentGroupName;
+    }
+
+    public void setStudentGroupName(String studentGroupName) {
+        this.studentGroupName = studentGroupName;
+    }
+
+    public int getStudentGroupGrade() {
+        return studentGroupGrade;
+    }
+
+    public void setStudentGroupGrade(int studentGroupGrade) {
+        this.studentGroupGrade = studentGroupGrade;
     }
 
     public int getStudentGroupId() {
