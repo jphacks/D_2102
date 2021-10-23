@@ -13,6 +13,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import CreateIcon from "@mui/icons-material/Create";
 import { Button, Modal } from "@material-ui/core";
 //
 function createData(
@@ -25,7 +26,7 @@ function createData(
   return { name, calories, fat, carbs, protein };
 }
 
-let rows = new Array(5).fill("");
+let rows = new Array(2).fill("");
 
 //
 
@@ -38,7 +39,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 1, 0, 0),
   },
   new: {
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(2),
+  },
+  paper: {
+    minHeight: 250,
   },
 }));
 
@@ -49,33 +53,35 @@ const Home: React.FC = () => {
     <App>
       <Grid container spacing={2}>
         <Grid item xs={5}>
-          <h2 className={styles.home__h2}>お知らせ</h2>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    hover
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <h2 className={styles.home__h2}>通知</h2>
+          <Paper className={classes.paper}>
+            <TableContainer>
+              <Table>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      hover
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.calories}</TableCell>
+                      <TableCell align="right">{row.fat}</TableCell>
+                      <TableCell align="right">{row.carbs}</TableCell>
+                      <TableCell align="right">{row.protein}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
           <Button
             variant="contained"
             style={{
-              backgroundColor: "#FF7B7B",
-              color: "white",
+              backgroundColor: "#F5EA91",
+              color: "#707070",
             }}
             className={classes.button}
             onClick={() => {
@@ -88,32 +94,34 @@ const Home: React.FC = () => {
             }}
           >
             <MailOutlineIcon className={classes.icon} />
-            受け取りBOX
+            通知一覧
           </Button>
         </Grid>
         <Grid item xs={7}>
           <h2 className={styles.home__h2}>学校からのお知らせ</h2>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    hover
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Paper className={classes.paper}>
+            <TableContainer>
+              <Table>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      hover
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.calories}</TableCell>
+                      <TableCell align="right">{row.fat}</TableCell>
+                      <TableCell align="right">{row.carbs}</TableCell>
+                      <TableCell align="right">{row.protein}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
           <Button
             variant="contained"
             style={{
@@ -131,34 +139,55 @@ const Home: React.FC = () => {
             }}
           >
             <NotificationsNoneIcon className={classes.icon} />
-            お知らせBOX
+            お知らせ一覧
           </Button>
         </Grid>
       </Grid>
       <Grid container className={classes.new}>
         <Grid item xs={12}>
           <h2 className={styles.home__h2_new}>新着の投稿</h2>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    hover
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Paper className={classes.paper}>
+            <TableContainer>
+              <Table>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      hover
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.calories}</TableCell>
+                      <TableCell align="right">{row.fat}</TableCell>
+                      <TableCell align="right">{row.carbs}</TableCell>
+                      <TableCell align="right">{row.protein}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "#F5EA91",
+              color: "#707070",
+            }}
+            className={classes.button}
+            onClick={() => {
+              // dispatch(
+              //   fetchAsyncDeleteStaff({
+              //     ...row,
+              //     is_active: false,
+              //   })
+              // );
+            }}
+          >
+            <CreateIcon className={classes.icon} />
+            投稿一覧
+          </Button>
         </Grid>
       </Grid>
     </App>
