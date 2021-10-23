@@ -1,5 +1,7 @@
 package com.example.jphacks_server.entity;
 
+import java.text.SimpleDateFormat;
+
 public class Comment {
     private int commentId;
     private String subjectsName;
@@ -40,7 +42,8 @@ public class Comment {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return createdAt.substring(0, createdAt.length() - 3);
     }
 
     public void setCreatedAt(String createdAt) {
