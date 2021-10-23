@@ -199,7 +199,7 @@ INSERT INTO comments(
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 1, "国語のワークの意図がわかりません", 1
+    1, 1, "国語のワークの意図がわかりません", 0
 );
 
 INSERT INTO comments(
@@ -217,12 +217,6 @@ INSERT INTO comments(
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    3, 6, "勉強がわからんくてとても不安です。", 1
-);
-
-INSERT INTO comments(
-    users_id, subjects_id, comment_content, comment_is_answered
-) values(
     1, 5, "理科問題がよくわかりません。", 0
 );
 
@@ -231,3 +225,30 @@ INSERT INTO comments(
 ) values(
     1, 6, "勉強がわからんくてとても不安です。", 1
 );
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    5, 1, "教科書をよく読みましょう", 0
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    3, 1, "そこは筆者の意図を読めばわかります。", 0
+);
+
+
+INSERT INTO question_group(
+    answer_comment_id, question_comment_id
+) values(
+    8, 1
+);
+
+
+INSERT INTO question_group(
+    answer_comment_id, question_comment_id
+) values(
+    7, 4
+);
+
