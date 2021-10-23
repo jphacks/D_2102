@@ -1,11 +1,27 @@
 package com.example.jphacks_server.entity;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class News {
     private int newsId;
     private int studentGroupId;
     private String newsSubject;
     private String newsText;
     private String isRead;
+    private String createdAt;
+
+    public String getCreatedAt() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return createdAt.substring(0, createdAt.length() - 3);
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
 
     public int getNewsId() {
         return newsId;

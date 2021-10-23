@@ -22,7 +22,7 @@ public class NewsService {
     JdbcTemplate jdbcTemplate;
 
     public ResponseEntity<String> newsAll(String id, HttpHeaders header){
-        String query = "select news.news_id, news.student_group_id, news_subject, news_text,if(news_checked.news_id is not null, \"read\",\"notRead\") as is_read " +
+        String query = "select news.news_id, news.student_group_id, news_subject, news_text,if(news_checked.news_id is not null, \"read\",\"notRead\") as is_read, news.created_at " +
                 "from news " +
                 "left join news_checked " +
                 "on news.news_id = news_checked.news_id and news_checked.users_id  = ? " +
