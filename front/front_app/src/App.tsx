@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { AppDispatch } from "./app/store";
+import { useSelector, useDispatch } from "react-redux";
+import { selectLoginUser, fetchAsyncGetUser } from "./features/auth/authSlice";
 
 import { NavLink } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
@@ -28,6 +31,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import SensorDoorRoundedIcon from "@mui/icons-material/SensorDoorRounded";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 
 const drawerWidth = 240;
@@ -86,7 +90,11 @@ export interface Menu {
 
 export const App: React.FC = ({ children }) => {
   const theme = useTheme();
+  const dispatch: AppDispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
+
+  const loginUser = useSelector(selectLoginUser);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -108,6 +116,13 @@ export const App: React.FC = ({ children }) => {
     width: "100%",
     display: "inline-block",
   };
+
+  useEffect(() => {
+    const fetchBootLoader = async () => {
+      await dispatch(fetchAsyncGetUser());
+    };
+    fetchBootLoader();
+  }, [dispatch]);
 
   return (
     <div>
@@ -155,6 +170,15 @@ export const App: React.FC = ({ children }) => {
             </IconButton>
           </DrawerHeader>
           <Divider />
+          <div className={styles.app__userBox}>
+            <p className={styles.app__name}>
+              {loginUser.usersName}
+              {loginUser.studentGroupId === null && <>先生</>}
+            </p>
+            <p className={styles.app__scholl}>{loginUser.schoolsName}</p>
+            <p className={styles.app__scholl}>{loginUser.studentGroupName}</p>
+          </div>
+          <Divider />
           <List>
             <NavLink exact to="/home" activeStyle={current}>
               <ListItem button>
@@ -167,21 +191,34 @@ export const App: React.FC = ({ children }) => {
             <NavLink
               exact
               to="/"
-              className={styles.default__nav}
+              className={styles.app__nav}
+              activeStyle={current}
+            >
+              <ListItem button>
+                <ListItemIcon>
+                  <MailOutlineIcon />
+                </ListItemIcon>
+                <ListItemText primary="通知" />
+              </ListItem>
+            </NavLink>
+            <NavLink
+              exact
+              to="/"
+              className={styles.app__nav}
               activeStyle={current}
             >
               <ListItem button>
                 <ListItemIcon>
                   <NotificationsRoundedIcon />
                 </ListItemIcon>
-                <ListItemText primary="通知" />
+                <ListItemText primary="学校からのお知らせ" />
               </ListItem>
             </NavLink>
             {["1年数学", "1年国語", "1年理科", "1年社会"].map((text, index) => (
               <NavLink
                 exact
                 to="/"
-                className={styles.default__nav}
+                className={styles.app__nav}
                 activeStyle={current}
                 key={index}
               >
