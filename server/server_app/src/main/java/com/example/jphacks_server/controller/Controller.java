@@ -105,7 +105,7 @@ public class Controller {
     }
 
     @CrossOrigin
-    @GetMapping("/comment-news")
+    @GetMapping("/commentNews")
     public ResponseEntity<String> commentNewsControl(HttpServletRequest httpRequest){
         String responseHeader = httpRequest.getHeader("Authorization");
         String usersId = JwtToken.verify(responseHeader);
