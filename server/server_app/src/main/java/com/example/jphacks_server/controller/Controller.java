@@ -33,11 +33,14 @@ public class Controller {
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
     }
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private CommnetNewsService commnetNewsService;
+
 
     @Autowired
     private SubjectService subjectService;
@@ -96,6 +99,19 @@ public class Controller {
         if(!usersId.equals("Exception")){
             requestHeaders.set("Authorization", responseHeader);
             return subjectService.subjectAll(usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping("/comment-news")
+    public ResponseEntity<String> commentNewsControl(HttpServletRequest httpRequest){
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            requestHeaders.set("Authorization", responseHeader);
+            return commnetNewsService.comentNewsAll(usersId, requestHeaders);
         }else{
             return createFailedJson();
         }

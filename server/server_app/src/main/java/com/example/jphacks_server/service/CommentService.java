@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,8 +19,14 @@ import java.util.List;
 @Service
 public class CommentService {
 
+    HttpHeaders responseHeaders = new HttpHeaders();
+
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    public CommentService(){
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+    }
 
     public ResponseEntity<String> comentAll(String id, HttpHeaders header){
         String query = "select comments.comment_id, subjects.subjects_name, comments.comment_content, comments.created_at, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered\n" +
