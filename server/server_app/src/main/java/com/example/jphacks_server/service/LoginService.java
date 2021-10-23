@@ -52,6 +52,7 @@ public class LoginService {
             responseHeaders.remove("Authorization");
         }else{
             root.put("status", "success");
+            root.put("Authorization", token);
             responseHeaders.set("Authorization", token);
         }
 
