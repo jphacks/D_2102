@@ -56,17 +56,9 @@ public class JwtToken {
         return null;
     }
 
-    public static boolean verify(String token, String id){
+    public static String verify(String token){
         String result = verifyToken(token);
-        if(!result.equals("Exception")){
-            System.out.println("-----一個め");
-            if(result.equals(id)){
-                System.out.println("-----2個め");
-                return true;
-            }
-        }
-
-        return false;
+        return  result;
 
     }
     private static String verifyToken(String token){

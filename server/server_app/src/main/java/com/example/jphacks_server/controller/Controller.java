@@ -60,24 +60,26 @@ public class Controller {
 
 
     @CrossOrigin
-    @GetMapping("/user/{id}")
-    public ResponseEntity<String> userControl(@PathVariable String id, HttpServletRequest httpRequest){
+    @GetMapping("/user")
+    public ResponseEntity<String> userControl(HttpServletRequest httpRequest){
         String responseHeader = httpRequest.getHeader("Authorization");
-        if(JwtToken.verify(responseHeader, id)){
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
             requestHeaders.set("Authorization", responseHeader);
-            return usersService.findAll(id, requestHeaders);
+            return usersService.findAll(usersId, requestHeaders);
         }else{
             return createFailedJson();
         }
     }
 
     @CrossOrigin
-    @GetMapping("/subject/{id}")
-    public ResponseEntity<String> subjectControl(@PathVariable String id, HttpServletRequest httpRequest){
+    @GetMapping("/subject")
+    public ResponseEntity<String> subjectControl(HttpServletRequest httpRequest){
         String responseHeader = httpRequest.getHeader("Authorization");
-        if(JwtToken.verify(responseHeader, id)){
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
             requestHeaders.set("Authorization", responseHeader);
-            return subjectService.subjectAll(id, requestHeaders);
+            return subjectService.subjectAll(usersId, requestHeaders);
         }else{
             return createFailedJson();
         }
@@ -85,10 +87,12 @@ public class Controller {
 
 
     @CrossOrigin
-    @GetMapping("/news/{id}")
-    public ResponseEntity<String> newsControl(@PathVariable String id, HttpServletRequest httpRequest) {
-        if(JwtToken.verify(httpRequest.getHeader("Authorization"), id)){
-            return newsService.newsAll(id);
+    @GetMapping("/news")
+    public ResponseEntity<String> newsControl(HttpServletRequest httpRequest) {
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            return newsService.newsAll(usersId, requestHeaders);
         }else{
             return createFailedJson();
         }
