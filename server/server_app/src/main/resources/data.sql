@@ -76,40 +76,40 @@ INSERT INTO student_group(
 );
 
 INSERT INTO subjects(
-    schools_id, subjects_name
+    schools_id, subjects_name,subject_one_to_one
 ) values(
-    1, "3年国語"
+    1, "3年国語",0
 );
 
 INSERT INTO subjects(
-    schools_id, subjects_name
+    schools_id, subjects_name, subject_one_to_one
 ) values(
-    1, "3年数学"
+    1, "3年数学",0
 );
 
 INSERT INTO subjects(
-    schools_id, subjects_name
+    schools_id, subjects_name, subject_one_to_one
 ) values(
-    1, "3年理科"
+    1, "3年理科", 0
 );
 
 INSERT INTO subjects(
-    schools_id, subjects_name
+    schools_id, subjects_name, subject_one_to_one
 ) values(
-    1, "3年英語"
+    1, "3年英語", 0
 );
 
 INSERT INTO subjects(
-    schools_id, subjects_name
+    schools_id, subjects_name, subject_one_to_one
 ) values(
-    1, "3年社会"
+    1, "3年社会", 0
 );
 
 
 INSERT INTO subjects(
-    schools_id, subjects_name
+    schools_id, subjects_name, subject_one_to_one
 ) values(
-    1, "スクールカウンセラー"
+    1, "スクールカウンセラー", 1
 );
 
 
@@ -152,4 +152,46 @@ INSERT INTO group_director(
     subjects_id, student_group_id
 ) values(
     6, 1
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    1, 1, "国語の問題のここがわかりません", 1
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    1, 1, "国語のワークの意図がわかりません", 1
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    2, 2, "数学のワークのp56の問2がわかりません", 0
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    1, 4, "問題がよくわかりません。", 1
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    3, 6, "勉強がわからんくてとても不安です。", 1
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    1, 5, "理科問題がよくわかりません。", 0
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    1, 6, "勉強がわからんくてとても不安です。", 1
 );

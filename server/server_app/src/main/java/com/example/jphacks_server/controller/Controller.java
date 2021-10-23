@@ -45,6 +45,9 @@ public class Controller {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private CommentService commentService;
+
 
     @Autowired
     private LoginService loginService;
@@ -67,6 +70,19 @@ public class Controller {
         if(!usersId.equals("Exception")){
             requestHeaders.set("Authorization", responseHeader);
             return usersService.findAll(usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping("/comment")
+    public ResponseEntity<String> commnetControl(HttpServletRequest httpRequest){
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            requestHeaders.set("Authorization", responseHeader);
+            return commentService.comentAll(usersId, requestHeaders);
         }else{
             return createFailedJson();
         }

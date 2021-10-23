@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS subjects(
     subjects_id integer PRIMARY KEY AUTO_INCREMENT,
     schools_id integer NOT NULL,
     subjects_name varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+    subject_one_to_one integer default 0,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     foreign key (schools_id) references schools(schools_id)
