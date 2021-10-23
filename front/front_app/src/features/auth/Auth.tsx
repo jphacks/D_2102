@@ -63,7 +63,7 @@ export const Auth: React.FC = () => {
               fullWidth
               label="ID"
               type="text"
-              name="userId"
+              name="usersLoginId"
               value={credential.usersLoginId}
               autoFocus
               onChange={handleInputChange}
@@ -75,7 +75,7 @@ export const Auth: React.FC = () => {
               fullWidth
               label="パスワード"
               type="password"
-              name="password"
+              name="usersLoginPassword"
               value={credential.usersLoginPassword}
               onChange={handleInputChange}
               autoComplete="current-password"
