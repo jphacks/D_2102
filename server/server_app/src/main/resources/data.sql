@@ -38,6 +38,20 @@ INSERT INTO users(
     1, "本郷武","th00001","password", null
 );
 
+INSERT INTO users(
+    schools_id, users_name, users_login_id, users_login_password, student_group_id
+) values(
+    1, "中本英二","th00002","password", null
+);
+
+INSERT INTO users(
+    schools_id, users_name, users_login_id, users_login_password, student_group_id
+) values(
+    1, "高坂美希","th00003","password", null
+);
+
+
+
 
 INSERT INTO news(
     users_id, student_group_id, news_subject, news_text
@@ -111,6 +125,28 @@ INSERT INTO subjects(
 ) values(
     1, "スクールカウンセラー", 1
 );
+
+
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    1, 3
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    2, 4
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    4, 5
+);
+
+
 
 
 INSERT INTO group_director(
