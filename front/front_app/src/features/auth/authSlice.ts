@@ -32,8 +32,8 @@ export const authSlice = createSlice({
     builder.addCase(
       fetchAsyncLogin.fulfilled,
       (state, action: PayloadAction<JWT>) => {
-        localStorage.setItem("localJWT", action.payload.authorization);
-        action.payload.authorization && (window.location.href = "/home");
+        localStorage.setItem("localJWT", action.payload.Authorization);
+        action.payload.Authorization && (window.location.href = "/home");
       }
     );
   },
