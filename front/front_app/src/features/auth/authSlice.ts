@@ -32,6 +32,22 @@ export const fetchAsyncGetUser = createAsyncThunk("auth/getUser", async () => {
   return res.data;
 });
 
+export const fetchAsyncGetSubject = createAsyncThunk(
+  "auth/getSubject",
+  async () => {
+    const res = await axios.get<READ_SUBJECT[]>(
+      `${process.env.REACT_APP_API_URL}/api/subject/`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.localJWT}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
 const initialState: AUTH_STATE = {
   loginUser: {
     usersId: 0,
@@ -70,9 +86,22 @@ export const authSlice = createSlice({
     builder.addCase(fetchAsyncGetUser.rejected, () => {
       window.location.href = "/login";
     });
+    builder.addCase(
+      fetchAsyncGetSubject.fulfilled,
+      (state, action: PayloadAction<READ_SUBJECT[]>) => {
+        return {
+          ...state,
+          subjects: action.payload,
+        };
+      }
+    );
+    builder.addCase(fetchAsyncGetSubject.rejected, () => {
+      window.location.href = "/login";
+    });
   },
 });
 
 export const selectLoginUser = (state: RootState) => state.auth.loginUser;
+export const selectSubjects = (state: RootState) => state.auth.subjects;
 
 export default authSlice.reducer;

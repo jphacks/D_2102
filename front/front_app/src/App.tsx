@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { AppDispatch } from "./app/store";
 import { useSelector, useDispatch } from "react-redux";
-import { selectLoginUser, fetchAsyncGetUser } from "./features/auth/authSlice";
+import {
+  selectLoginUser,
+  selectSubjects,
+  fetchAsyncGetUser,
+  fetchAsyncGetSubject,
+} from "./features/auth/authSlice";
 
 import { NavLink } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
@@ -95,6 +100,7 @@ export const App: React.FC = ({ children }) => {
   const [open, setOpen] = React.useState(false);
 
   const loginUser = useSelector(selectLoginUser);
+  const subjects = useSelector(selectSubjects);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -120,6 +126,7 @@ export const App: React.FC = ({ children }) => {
   useEffect(() => {
     const fetchBootLoader = async () => {
       await dispatch(fetchAsyncGetUser());
+      await dispatch(fetchAsyncGetSubject());
     };
     fetchBootLoader();
   }, [dispatch]);
@@ -143,7 +150,7 @@ export const App: React.FC = ({ children }) => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              ロゴが入ります
+              知りたいもん
             </Typography>
           </Toolbar>
         </AppBar>
@@ -214,19 +221,19 @@ export const App: React.FC = ({ children }) => {
                 <ListItemText primary="学校からのお知らせ" />
               </ListItem>
             </NavLink>
-            {["1年数学", "1年国語", "1年理科", "1年社会"].map((text, index) => (
+            {subjects.map((subject, index) => (
               <NavLink
                 exact
-                to="/"
+                to={"/room/" + subject.subjectsId}
                 className={styles.app__nav}
                 activeStyle={current}
                 key={index}
               >
-                <ListItem button key={text}>
+                <ListItem button key={subject.subjectsId}>
                   <ListItemIcon>
                     <SensorDoorRoundedIcon />
                   </ListItemIcon>
-                  <ListItemText primary={text + "の部屋"} />
+                  <ListItemText primary={subject.subjectsName + "の部屋"} />
                 </ListItem>
               </NavLink>
             ))}
