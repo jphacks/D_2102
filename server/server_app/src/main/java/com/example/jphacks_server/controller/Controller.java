@@ -52,13 +52,14 @@ public class Controller {
 
 
 
-
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<String> loginControl(@RequestBody Users usersData) {
         return loginService.login(usersData);
     }
 
 
+    @CrossOrigin
     @GetMapping("/user/{id}")
     public ResponseEntity<String> userControl(@PathVariable String id, HttpServletRequest httpRequest){
         String responseHeader = httpRequest.getHeader("Authorization");
@@ -70,6 +71,7 @@ public class Controller {
         }
     }
 
+    @CrossOrigin
     @GetMapping("/subject/{id}")
     public ResponseEntity<String> subjectControl(@PathVariable String id, HttpServletRequest httpRequest){
         String responseHeader = httpRequest.getHeader("Authorization");
@@ -82,7 +84,7 @@ public class Controller {
     }
 
 
-
+    @CrossOrigin
     @GetMapping("/news/{id}")
     public ResponseEntity<String> newsControl(@PathVariable String id, HttpServletRequest httpRequest) {
         if(JwtToken.verify(httpRequest.getHeader("Authorization"), id)){
