@@ -38,6 +38,26 @@ INSERT INTO users(
     1, "本郷武","th00001","password", null
 );
 
+INSERT INTO users(
+    schools_id, users_name, users_login_id, users_login_password, student_group_id
+) values(
+    1, "中本英二","th00002","password", null
+);
+
+INSERT INTO users(
+    schools_id, users_name, users_login_id, users_login_password, student_group_id
+) values(
+    1, "高坂美希","th00003","password", null
+);
+
+INSERT INTO users(
+    schools_id, users_name, users_login_id, users_login_password, student_group_id
+) values(
+    1, "加藤薫","th00004","password", null
+);
+
+
+
 
 INSERT INTO news(
     users_id, student_group_id, news_subject, news_text
@@ -113,6 +133,34 @@ INSERT INTO subjects(
 );
 
 
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    1, 3
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    2, 4
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    4, 5
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    6, 6
+);
+
+
+
+
 INSERT INTO group_director(
     subjects_id, student_group_id
 ) values(
@@ -157,31 +205,25 @@ INSERT INTO group_director(
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 1, "国語の問題のここがわかりません", 1
+    1, 1, "国語の問題のここがわかりません", 9
 );
 
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 1, "国語のワークの意図がわかりません", 1
+    1, 1, "国語のワークの意図がわかりません",0
 );
 
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    2, 2, "数学のワークのp56の問2がわかりません", 0
+    2, 2, "数学のワークのp56の問2がわかりません", 8
 );
 
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 4, "問題がよくわかりません。", 1
-);
-
-INSERT INTO comments(
-    users_id, subjects_id, comment_content, comment_is_answered
-) values(
-    3, 6, "勉強がわからんくてとても不安です。", 1
+    1, 4, "問題がよくわかりません。", 7
 );
 
 INSERT INTO comments(
@@ -193,5 +235,55 @@ INSERT INTO comments(
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 6, "勉強がわからんくてとても不安です。", 1
+    1, 6, "勉強がわからんくてとても不安です。", 10
 );
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    5, 1, "教科書をよく読みましょう", 0
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    4, 2, "公式を使いましょう。", 0
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    3, 1, "そこは筆者の意図を読めばわかります。", 0
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    6, 1, "急ぐ必要はありません。ゆっくりで大丈夫ですよ。", 0
+);
+
+
+INSERT INTO question_group(
+    answer_comment_id, question_comment_id
+) values(
+    9, 1
+);
+
+INSERT INTO question_group(
+    answer_comment_id, question_comment_id
+) values(
+    8, 3
+);
+
+INSERT INTO question_group(
+    answer_comment_id, question_comment_id
+) values(
+    7, 4
+);
+
+INSERT INTO question_group(
+    answer_comment_id, question_comment_id
+) values(
+    10, 6
+);
+
