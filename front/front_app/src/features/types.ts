@@ -24,3 +24,30 @@ export interface AUTH_STATE {
   loginUser: USER;
   subjects: READ_SUBJECT[];
 }
+
+/*studentHomeSlice.ts*/
+export interface READ_COMMENT_NEWS {
+  usersName: string;
+  commentId: number;
+  subjectsName: string;
+  createdAt: string;
+}
+export interface READ_NEWS {
+  newsId: number;
+  studentGroupId: number;
+  newsSubject: string;
+  newsText: string;
+  isRead: string;
+}
+export interface READ_COMMENT {
+  commentId: number;
+  subjectsName: string;
+  comment_content: string;
+  isAnswered: string;
+  createdAt: string;
+}
+export interface STUDENT_HOME_STATE {
+  commentNews: READ_COMMENT_NEWS[];
+  news: READ_NEWS[];
+  comments: READ_COMMENT[];
+}
