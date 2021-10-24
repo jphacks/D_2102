@@ -135,6 +135,18 @@ public class Controller {
         }
     }
 
+    @CrossOrigin
+    @GetMapping("/room/{subjectId}")
+    public ResponseEntity<String> newsControl(@PathVariable String subjectId, HttpServletRequest httpRequest) {
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            return commentService.comentSubjectRoom(usersId, subjectId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
 
 
     @CrossOrigin

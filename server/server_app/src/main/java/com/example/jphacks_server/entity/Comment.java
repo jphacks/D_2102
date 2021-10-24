@@ -5,10 +5,19 @@ import java.text.SimpleDateFormat;
 public class Comment {
     private int commentId;
     private int subjectsId;
+    private int vote;
     private String subjectsName;
     private String commentContent;
     private String isAnswered;
     private String createdAt;
+
+    public int getVote() {
+        return vote;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
+    }
 
     public int getSubjectsId() {
         return subjectsId;

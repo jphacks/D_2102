@@ -287,3 +287,58 @@ INSERT INTO question_group(
     10, 6
 );
 
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    1, 1, 0
+);
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    1, 2, 0
+);
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    1, 3, 0
+);
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    1, 4, 0
+);
+
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    1, 5, 1
+);
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    2, 1, 1
+);
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    2, 2, 0
+);
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    3, 1, 0
+);
+
+INSERT INTO comment_vote(
+    comment_id, users_id, comment_vote_is_deleted
+) values(
+    3, 2, 0
+);
