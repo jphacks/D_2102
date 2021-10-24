@@ -7,6 +7,8 @@ import java.util.Date;
 public class News {
     private int newsId;
     private int studentGroupId;
+    private int usersId;
+    private String users_name;
     private String newsSubject;
     private String newsText;
     private String isRead;
@@ -21,7 +23,21 @@ public class News {
         this.createdAt = createdAt;
     }
 
+    public int getUsersId() {
+        return usersId;
+    }
 
+    public void setUsersId(int usersId) {
+        this.usersId = usersId;
+    }
+
+    public String getUsers_name() {
+        return users_name;
+    }
+
+    public void setUsers_name(String users_name) {
+        this.users_name = users_name;
+    }
 
     public int getNewsId() {
         return newsId;

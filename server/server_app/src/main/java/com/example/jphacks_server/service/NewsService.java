@@ -22,15 +22,16 @@ public class NewsService {
     JdbcTemplate jdbcTemplate;
 
     public ResponseEntity<String> newsAll(String id, HttpHeaders header){
-        String query = "select news.news_id, news.student_group_id, news_subject, news_text,if(news_checked.news_id is not null, \"read\",\"notRead\") as is_read, news.created_at " +
-                "from news " +
-                "left join news_checked " +
-                "on news.news_id = news_checked.news_id and news_checked.users_id  = ? " +
+        String query = "select news.news_id, news.users_id, users.users_name, news.student_group_id, news_subject, news_text,if(news_checked.news_id is not null, \"read\",\"notRead\") as is_read,news.created_at\n" +
+                "from news\n" +
+                "left join news_checked on news.news_id = news_checked.news_id and news_checked.users_id  = ?\n" +
+                "left join users on users.users_id = news.users_id\n" +
+                "where news.student_group_id = (select student_group_id from users where users_id = ?)\n" +
                 "order by news.created_at desc;";
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();
-        List<News> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(News.class), Integer.parseInt(id));
+        List<News> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(News.class), Integer.parseInt(id), Integer.parseInt(id));
 
         ResponseEntity<String> responseEntity = null;
         try {
