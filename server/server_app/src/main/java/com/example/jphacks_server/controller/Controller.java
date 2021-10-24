@@ -2,6 +2,7 @@ package com.example.jphacks_server.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.jphacks_server.entity.Comment;
 import com.example.jphacks_server.entity.Users;
 import com.example.jphacks_server.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -116,6 +117,21 @@ public class Controller {
             return createFailedJson();
         }
     }
+
+
+    @CrossOrigin
+    @GetMapping("/postComment")
+    public ResponseEntity<String> postCommentControl(@RequestBody Comment comment, HttpServletRequest httpRequest){
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            requestHeaders.set("Authorization", responseHeader);
+            return commnetNewsService.comentNewsAll(usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
 
 
     @CrossOrigin
