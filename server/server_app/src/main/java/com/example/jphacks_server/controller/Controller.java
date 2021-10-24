@@ -56,6 +56,9 @@ public class Controller {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private PostCommentService postCommentService;
+
 
 
 
@@ -120,13 +123,13 @@ public class Controller {
 
 
     @CrossOrigin
-    @GetMapping("/postComment")
+    @PostMapping("/postComment")
     public ResponseEntity<String> postCommentControl(@RequestBody Comment comment, HttpServletRequest httpRequest){
         String responseHeader = httpRequest.getHeader("Authorization");
         String usersId = JwtToken.verify(responseHeader);
         if(!usersId.equals("Exception")){
             requestHeaders.set("Authorization", responseHeader);
-            return commnetNewsService.comentNewsAll(usersId, requestHeaders);
+            return postCommentService.postComment(comment, usersId, requestHeaders);
         }else{
             return createFailedJson();
         }

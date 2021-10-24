@@ -29,7 +29,7 @@ public class CommentService {
     }
 
     public ResponseEntity<String> comentAll(String id, HttpHeaders header){
-        String query = "select comments.comment_id, subjects.subjects_name, comments.comment_content, comments.created_at, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered\n" +
+        String query = "select comments.comment_id, comments.subjects_id, subjects.subjects_name, comments.comment_content, comments.created_at, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered\n" +
                 "from comments\n" +
                 "left join subjects on comments.subjects_id= subjects.subjects_id \n" +
                 "left join users on  comments.users_id= users.users_id\n" +
