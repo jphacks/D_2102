@@ -20,9 +20,13 @@ export interface READ_SUBJECT {
   subjectsName: string;
   subjectsId: number;
 }
+export interface MODAL_STATE {
+  modalOpen: boolean;
+}
 export interface AUTH_STATE {
   loginUser: USER;
   subjects: READ_SUBJECT[];
+  modalState: MODAL_STATE;
 }
 
 /*studentHomeSlice.ts*/

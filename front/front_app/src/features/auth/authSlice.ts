@@ -60,12 +60,22 @@ const initialState: AUTH_STATE = {
     studentGroupId: 0,
   },
   subjects: [{ subjectsName: "", subjectsId: 0 }],
+  modalState: {
+    modalOpen: false,
+  },
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    handleClose: (state) => {
+      state.modalState.modalOpen = false;
+    },
+    handleOpen: (state) => {
+      state.modalState.modalOpen = true;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(
       fetchAsyncLogin.fulfilled,
@@ -101,7 +111,9 @@ export const authSlice = createSlice({
   },
 });
 
+export const { handleClose, handleOpen } = authSlice.actions;
 export const selectLoginUser = (state: RootState) => state.auth.loginUser;
 export const selectSubjects = (state: RootState) => state.auth.subjects;
+export const selectModalState = (state: RootState) => state.auth.modalState;
 
 export default authSlice.reducer;

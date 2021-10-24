@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AppDispatch } from "./app/store";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectLoginUser,
   selectSubjects,
+  selectModalState,
   fetchAsyncGetUser,
   fetchAsyncGetSubject,
+  handleClose,
+  handleOpen,
 } from "./features/auth/authSlice";
 
 import { NavLink } from "react-router-dom";
@@ -44,7 +47,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(1.5, 3),
     margin: theme.spacing(3, 2),
   },
+  paper: {
+    position: "absolute",
+    textAlign: "center",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const drawerWidth = 240;
 
@@ -105,7 +127,16 @@ export const App: React.FC = ({ children }) => {
   const classes = useStyles();
   const dispatch: AppDispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const modalState = useSelector(selectModalState);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalStyle] = useState(getModalStyle);
+
+  useEffect(() => {
+    setModalOpen(modalState.modalOpen);
+  }, [modalState]);
 
   const loginUser = useSelector(selectLoginUser);
   const subjects = useSelector(selectSubjects);
@@ -253,7 +284,7 @@ export const App: React.FC = ({ children }) => {
             color="primary"
             startIcon={<AddCircleOutlineIcon />}
             onClick={() => {
-              // dispatch(handleOpen());
+              dispatch(handleOpen());
               // dispatch(
               //   editShift({
               //     id: 0,
@@ -296,6 +327,11 @@ export const App: React.FC = ({ children }) => {
           {children}
         </Main>
       </Box>
+      <Modal open={modalOpen} onClose={() => dispatch(handleClose())}>
+        <div style={modalStyle} className={classes.paper}>
+          aaa
+        </div>
+      </Modal>
     </div>
   );
 };
