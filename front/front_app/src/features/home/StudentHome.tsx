@@ -1,4 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { AppDispatch } from "../../app/store";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectCommentNews,
+  selectNews,
+  selectComments,
+  fetchAsyncGetCommentNews,
+  fetchAsyncGetNews,
+  fetchAsyncGetComment,
+} from "./studentHomeSlice";
 
 import styles from "./StudentHome.module.css";
 import { makeStyles, Theme } from "@material-ui/core/styles";
@@ -14,20 +24,6 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import CreateIcon from "@mui/icons-material/Create";
 import { Button, Modal } from "@material-ui/core";
-//
-function createData(
-  name: string,
-  calories: string,
-  fat: string,
-  carbs: string,
-  protein: string
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-let rows = new Array(2).fill("");
-
-//
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
@@ -47,6 +43,34 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const StudentHome: React.FC = () => {
   const classes = useStyles();
+  const dispatch: AppDispatch = useDispatch();
+
+  const commentNews = useSelector(selectCommentNews);
+  const news = useSelector(selectNews);
+  const comments = useSelector(selectComments);
+
+  const n = 5;
+  const displayCommentNews = commentNews.slice(0, n);
+  const displayNews = news.slice(0, n);
+  const displasyComments = comments.slice(0, n);
+
+  const maxLen = 200;
+  const omit = (text: string) => {
+    if (text.length > maxLen) {
+      return text.substr(0, maxLen) + "...";
+    } else {
+      return text;
+    }
+  };
+
+  useEffect(() => {
+    const fetchBootLoader = async () => {
+      await dispatch(fetchAsyncGetCommentNews());
+      await dispatch(fetchAsyncGetNews());
+      await dispatch(fetchAsyncGetComment());
+    };
+    fetchBootLoader();
+  }, [dispatch]);
 
   return (
     <>
@@ -57,19 +81,13 @@ const StudentHome: React.FC = () => {
             <TableContainer>
               <Table>
                 <TableBody>
-                  {rows.map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                      hover
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.name}
+                  {displayCommentNews.map((row, rowIndex) => (
+                    <TableRow key={rowIndex} hover>
+                      <TableCell>{row.createdAt}</TableCell>
+                      <TableCell>{row.subjectsName}</TableCell>
+                      <TableCell>
+                        あなたの投稿に{row.usersName}先生が回答しました。
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -83,14 +101,7 @@ const StudentHome: React.FC = () => {
               color: "#707070",
             }}
             className={classes.button}
-            onClick={() => {
-              // dispatch(
-              //   fetchAsyncDeleteStaff({
-              //     ...row,
-              //     is_active: false,
-              //   })
-              // );
-            }}
+            onClick={() => {}}
           >
             <MailOutlineIcon className={classes.icon} />
             通知一覧
@@ -102,19 +113,12 @@ const StudentHome: React.FC = () => {
             <TableContainer>
               <Table>
                 <TableBody>
-                  {rows.map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                      hover
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.name}
+                  {displayNews.map((row, rowIndex) => (
+                    <TableRow key={rowIndex} hover>
+                      <TableCell>
+                        {row.isRead === "read" ? "" : "未開封"}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell>{row.newsSubject}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -128,14 +132,7 @@ const StudentHome: React.FC = () => {
               color: "#707070",
             }}
             className={classes.button}
-            onClick={() => {
-              // dispatch(
-              //   fetchAsyncDeleteStaff({
-              //     ...row,
-              //     is_active: false,
-              //   })
-              // );
-            }}
+            onClick={() => {}}
           >
             <NotificationsNoneIcon className={classes.icon} />
             お知らせ一覧
@@ -149,19 +146,14 @@ const StudentHome: React.FC = () => {
             <TableContainer>
               <Table>
                 <TableBody>
-                  {rows.map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                      hover
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.name}
+                  {displasyComments.map((row, rowIndex) => (
+                    <TableRow key={rowIndex} hover>
+                      <TableCell>
+                        {row.isAnswered === "Answered" ? "回答済み" : "未回答"}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell>{row.createdAt}</TableCell>
+                      <TableCell>{row.subjectsName}</TableCell>
+                      <TableCell>{omit(row.comment_content)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -175,14 +167,7 @@ const StudentHome: React.FC = () => {
               color: "#707070",
             }}
             className={classes.button}
-            onClick={() => {
-              // dispatch(
-              //   fetchAsyncDeleteStaff({
-              //     ...row,
-              //     is_active: false,
-              //   })
-              // );
-            }}
+            onClick={() => {}}
           >
             <CreateIcon className={classes.icon} />
             投稿一覧
