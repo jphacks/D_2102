@@ -4,10 +4,19 @@ import java.text.SimpleDateFormat;
 
 public class Comment {
     private int commentId;
+    private int subjectsId;
     private String subjectsName;
-    private String comment_content;
+    private String commentContent;
     private String isAnswered;
     private String createdAt;
+
+    public int getSubjectsId() {
+        return subjectsId;
+    }
+
+    public void setSubjectsId(int subjectsId) {
+        this.subjectsId = subjectsId;
+    }
 
     public int getCommentId() {
         return commentId;
@@ -25,12 +34,12 @@ public class Comment {
         this.subjectsName = subjectsName;
     }
 
-    public String getComment_content() {
-        return comment_content;
+    public String getCommentContent() {
+        return commentContent;
     }
 
-    public void setComment_content(String comment_content) {
-        this.comment_content = comment_content;
+    public void setComment_content(String commentContent) {
+        this.commentContent = commentContent;
     }
 
     public String getIsAnswered() {
