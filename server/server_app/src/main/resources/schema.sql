@@ -131,6 +131,7 @@ CREATE TABLE IF NOT EXISTS question_group(
 CREATE TABLE IF NOT EXISTS comment_vote(
     comment_id integer NOT NULL,
     users_id integer NOT NULL,
+    comment_vote_is_deleted integer not null,
     created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     foreign key (comment_id) references comments(comment_id),
