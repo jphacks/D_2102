@@ -141,7 +141,7 @@ const StudentHome: React.FC = () => {
       </Grid>
       <Grid container className={classes.new}>
         <Grid item xs={12}>
-          <h2 className={styles.student__h2_new}>新着の投稿</h2>
+          <h2 className={styles.student_home__h2_new}>新着の投稿</h2>
           <Paper className={classes.paper}>
             <TableContainer>
               <Table>
