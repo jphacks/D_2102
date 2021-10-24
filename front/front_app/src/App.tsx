@@ -9,9 +9,6 @@ import {
 } from "./features/auth/authSlice";
 
 import { NavLink } from "react-router-dom";
-import { Switch, Route } from "react-router-dom";
-
-import Home from "./features/home/Home";
 
 import styles from "./App.module.css";
 import grey from "@material-ui/core/colors/grey";
