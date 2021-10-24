@@ -11,9 +11,11 @@ import {
 import { NavLink } from "react-router-dom";
 
 import styles from "./App.module.css";
+import { Button, Modal } from "@material-ui/core";
 import grey from "@material-ui/core/colors/grey";
 import { useTheme } from "@material-ui/core/styles";
-import { styled, Theme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -35,6 +37,14 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import SensorDoorRoundedIcon from "@mui/icons-material/SensorDoorRounded";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  button: {
+    padding: theme.spacing(1.5, 3),
+    margin: theme.spacing(3, 2),
+  },
+}));
 
 const drawerWidth = 240;
 
@@ -92,6 +102,7 @@ export interface Menu {
 
 export const App: React.FC = ({ children }) => {
   const theme = useTheme();
+  const classes = useStyles();
   const dispatch: AppDispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
@@ -235,6 +246,29 @@ export const App: React.FC = ({ children }) => {
               </NavLink>
             ))}
           </List>
+          <Button
+            className={classes.button}
+            variant="contained"
+            size="small"
+            color="primary"
+            startIcon={<AddCircleOutlineIcon />}
+            onClick={() => {
+              // dispatch(handleOpen());
+              // dispatch(
+              //   editShift({
+              //     id: 0,
+              //     shift_date: "",
+              //     shift_start: "",
+              //     shift_end: "",
+              //     staff: 0,
+              //     lane: 1,
+              //   })
+              // );
+              // dispatch(selectShift(initialState.selectedShift));
+            }}
+          >
+            質問を投稿する
+          </Button>
           <Divider />
           <List>
             <ListItem button onClick={Logout}>
