@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.jphacks_server.entity.Comment;
 import com.example.jphacks_server.entity.Users;
+import com.example.jphacks_server.entity.Vote;
 import com.example.jphacks_server.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -134,6 +135,20 @@ public class Controller {
             return createFailedJson();
         }
     }
+
+    @CrossOrigin
+    @PostMapping("/votePost")
+    public ResponseEntity<String> voteControl(@RequestBody Vote vote, HttpServletRequest httpRequest){
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            requestHeaders.set("Authorization", responseHeader);
+            return postCommentService.postVote(vote, usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
 
     @CrossOrigin
     @GetMapping("/room/{subjectId}")
