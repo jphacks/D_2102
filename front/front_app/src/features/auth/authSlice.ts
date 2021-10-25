@@ -1,7 +1,15 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import axios from "axios";
-import { CRED, JWT, AUTH_STATE, USER, READ_SUBJECT } from "../types";
+import {
+  CRED,
+  JWT,
+  AUTH_STATE,
+  USER,
+  READ_SUBJECT,
+  POST_COMMENT,
+  REQUEST_STATUS,
+} from "../types";
 
 export const fetchAsyncLogin = createAsyncThunk(
   "auth/login",
@@ -48,6 +56,23 @@ export const fetchAsyncGetSubject = createAsyncThunk(
   }
 );
 
+export const fetchAsyncCreateComment = createAsyncThunk(
+  "auth/createComment",
+  async (comment: POST_COMMENT) => {
+    const res = await axios.post<REQUEST_STATUS>(
+      `${process.env.REACT_APP_API_URL}/api/postComment/`,
+      comment,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.localJWT}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
 const initialState: AUTH_STATE = {
   loginUser: {
     usersId: 0,
@@ -60,6 +85,10 @@ const initialState: AUTH_STATE = {
     studentGroupId: 0,
   },
   subjects: [{ subjectsName: "", subjectsId: 0 }],
+  editedComment: {
+    subjectsId: 0,
+    commentContent: "",
+  },
   modalState: {
     modalOpen: false,
   },
@@ -69,6 +98,9 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    editComment(state, action: PayloadAction<POST_COMMENT>) {
+      state.editedComment = action.payload;
+    },
     handleClose: (state) => {
       state.modalState.modalOpen = false;
     },
@@ -108,12 +140,26 @@ export const authSlice = createSlice({
     builder.addCase(fetchAsyncGetSubject.rejected, () => {
       window.location.href = "/login";
     });
+    builder.addCase(
+      fetchAsyncCreateComment.fulfilled,
+      (state, action: PayloadAction<REQUEST_STATUS>) => {
+        return {
+          ...state,
+          editedComment: initialState.editedComment,
+        };
+      }
+    );
+    builder.addCase(fetchAsyncCreateComment.rejected, () => {
+      window.location.href = "/";
+    });
   },
 });
 
-export const { handleClose, handleOpen } = authSlice.actions;
+export const { editComment, handleClose, handleOpen } = authSlice.actions;
 export const selectLoginUser = (state: RootState) => state.auth.loginUser;
 export const selectSubjects = (state: RootState) => state.auth.subjects;
+export const selectEditedComment = (state: RootState) =>
+  state.auth.editedComment;
 export const selectModalState = (state: RootState) => state.auth.modalState;
 
 export default authSlice.reducer;
