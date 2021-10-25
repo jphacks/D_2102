@@ -10,6 +10,7 @@ import {
   handleClose,
   handleOpen,
 } from "./features/auth/authSlice";
+import QuestionForm from "./features/auth/QuestionForm";
 
 import { NavLink } from "react-router-dom";
 
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   paper: {
     position: "absolute",
     textAlign: "center",
-    width: 400,
+    width: 650,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
@@ -285,17 +286,6 @@ export const App: React.FC = ({ children }) => {
             startIcon={<AddCircleOutlineIcon />}
             onClick={() => {
               dispatch(handleOpen());
-              // dispatch(
-              //   editShift({
-              //     id: 0,
-              //     shift_date: "",
-              //     shift_start: "",
-              //     shift_end: "",
-              //     staff: 0,
-              //     lane: 1,
-              //   })
-              // );
-              // dispatch(selectShift(initialState.selectedShift));
             }}
           >
             質問を投稿する
@@ -329,7 +319,7 @@ export const App: React.FC = ({ children }) => {
       </Box>
       <Modal open={modalOpen} onClose={() => dispatch(handleClose())}>
         <div style={modalStyle} className={classes.paper}>
-          aaa
+          <QuestionForm />
         </div>
       </Modal>
     </div>
