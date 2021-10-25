@@ -1,3 +1,6 @@
+export interface REQUEST_STATUS {
+  status: string;
+}
 /*authSlice.ts*/
 export interface CRED {
   usersLoginId: string;
