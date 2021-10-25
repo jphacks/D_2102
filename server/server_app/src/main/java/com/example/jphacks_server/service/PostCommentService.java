@@ -2,6 +2,7 @@ package com.example.jphacks_server.service;
 
 import com.example.jphacks_server.entity.Comment;
 import com.example.jphacks_server.entity.Subject;
+import com.example.jphacks_server.entity.Vote;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -31,6 +32,34 @@ public class PostCommentService {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();
         int sqlStatus = jdbcTemplate.update(query, Integer.parseInt(id), comment.getSubjectsId(), comment.getCommentContent());
+        if(sqlStatus > 0){
+            root.put("status", "success");
+        }else{
+            root.put("status", "failed");
+        }
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(root), header, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+
+    }
+
+    public ResponseEntity<String> postVote(Vote vote, String id, HttpHeaders header){
+
+        String query = "INSERT INTO comment_vote(\n" +
+                "    comment_id, users_id, comment_vote_is_deleted\n" +
+                ") values(\n" +
+                "    ?, ?, 0\n" +
+                ");";
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+        int sqlStatus = jdbcTemplate.update(query, vote.getCommentId(), Integer.parseInt(id));
         if(sqlStatus > 0){
             root.put("status", "success");
         }else{
