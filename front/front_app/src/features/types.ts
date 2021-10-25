@@ -1,3 +1,6 @@
+export interface REQUEST_STATUS {
+  status: string;
+}
 /*authSlice.ts*/
 export interface CRED {
   usersLoginId: string;
@@ -20,12 +23,17 @@ export interface READ_SUBJECT {
   subjectsName: string;
   subjectsId: number;
 }
+export interface POST_COMMENT {
+  subjectsId: number;
+  commentContent: string;
+}
 export interface MODAL_STATE {
   modalOpen: boolean;
 }
 export interface AUTH_STATE {
   loginUser: USER;
   subjects: READ_SUBJECT[];
+  editedComment: POST_COMMENT;
   modalState: MODAL_STATE;
 }
 
