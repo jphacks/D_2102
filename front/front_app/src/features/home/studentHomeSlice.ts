@@ -78,7 +78,7 @@ const initialState: STUDENT_HOME_STATE = {
     {
       commentId: 0,
       subjectsName: "",
-      comment_content: "",
+      commentContent: "",
       isAnswered: "",
       createdAt: "",
     },
