@@ -3,6 +3,7 @@ package com.example.jphacks_server.service;
 import com.example.jphacks_server.entity.Comment;
 import com.example.jphacks_server.entity.Subject;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class CommentService {
 
 
     public ResponseEntity<String> commentDetail(String commentId, HttpHeaders header){
-        String query = "select comments.comment_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, count(comment_vote.comment_id) as vote\n" +
+        String query = "select comments.comment_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered, count(comment_vote.comment_id) as vote\n" +
                 "from comments\n" +
                 "left join subjects on comments.subjects_id= subjects.subjects_id\n" +
                 "left join users on comments.users_id = users.users_id \n" +
@@ -100,7 +101,16 @@ public class CommentService {
 
         List<Comment> comment = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Comment.class), commentId);
 
-        root.put("student", String.valueOf(comment.get(0)));
+        try {
+            String json = mapper.writeValueAsString(comment);
+            JsonNode jsonNode = mapper.readTree(json);
+            root.put("student", jsonNode);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
         int nextComment = comment.get(0).getCommentIsAnswered();
         System.out.println(nextComment);
         if(nextComment != 0){
@@ -113,7 +123,14 @@ public class CommentService {
                     "order by comments.created_at desc";
 
             comment = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Comment.class), nextComment);
-            root.put("teacher", String.valueOf(comment.get(0)));
+            try {
+                String json = mapper.writeValueAsString(comment);
+                JsonNode jsonNode = mapper.readTree(json);
+                root.put("teacher", jsonNode);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
 
 
