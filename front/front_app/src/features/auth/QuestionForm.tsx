@@ -1,13 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectLoginUser,
+  fetchAsyncCreateComment,
   selectSubjects,
-  selectModalState,
-  fetchAsyncGetUser,
-  fetchAsyncGetSubject,
+  selectEditedComment,
+  editComment,
   handleClose,
-  handleOpen,
 } from "./authSlice";
 import { AppDispatch } from "../../app/store";
 
@@ -42,28 +40,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
-function getStyles(name: string, personName: string[], theme: Theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const QuestionForm = () => {
   const theme = useTheme();
   const classes = useStyles();
@@ -71,45 +47,41 @@ const QuestionForm = () => {
   const [value, setValue] = React.useState("");
   const [personName, setPersonName] = React.useState<string[]>([]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+  const subjects = useSelector(selectSubjects);
+  const editedComment = useSelector(selectEditedComment);
+
+  const isDisabled =
+    editedComment.subjectsId === 0 || editedComment.commentContent.length === 0;
+
+  const handleSelectSubjectChange = (e: SelectChangeEvent<number>) => {
+    const value = e.target.value as unknown as number;
+    dispatch(editComment({ ...editedComment, subjectsId: value }));
   };
 
-  const handleSelectSubjectChange = (
-    event: SelectChangeEvent<typeof personName>
-  ) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a the stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value;
+    dispatch(editComment({ ...editedComment, commentContent: value }));
   };
+
+  let subjectsOptions = subjects.map((subject) => (
+    <MenuItem key={subject.subjectsId} value={subject.subjectsId}>
+      {subject.subjectsName}
+    </MenuItem>
+  ));
 
   return (
     <>
-      <h2>質問投稿</h2>
+      <h2 className={styles.question_form__h2}>質問投稿</h2>
       <FormControl sx={{ m: 1, width: 250 }}>
         <InputLabel id="demo-multiple-name-label">科目</InputLabel>
         <Select
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
-          multiple
-          value={personName}
+          value={editedComment.subjectsId}
           onChange={handleSelectSubjectChange}
           input={<OutlinedInput label="Name" />}
-          MenuProps={MenuProps}
         >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
+          {subjectsOptions}
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, width: 500 }}>
@@ -119,6 +91,7 @@ const QuestionForm = () => {
           multiline
           rows={10}
           defaultValue=""
+          onChange={handleInputChange}
         />
       </FormControl>
       <Button
@@ -134,7 +107,11 @@ const QuestionForm = () => {
         variant="contained"
         color="primary"
         className={classes.button}
-        onClick={() => {}}
+        disabled={isDisabled}
+        onClick={() => {
+          dispatch(fetchAsyncCreateComment(editedComment));
+          dispatch(handleClose());
+        }}
       >
         投稿
       </Button>
