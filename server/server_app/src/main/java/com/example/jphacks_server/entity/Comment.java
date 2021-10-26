@@ -10,6 +10,23 @@ public class Comment {
     private String commentContent;
     private String isAnswered;
     private String createdAt;
+    private int commentIsAnswered;
+
+    public int getCommentIsAnswered() {
+        return commentIsAnswered;
+    }
+
+    public void setCommentIsAnswered(int commentIsAnswered) {
+        this.commentIsAnswered = commentIsAnswered;
+    }
+
+    public String getIsAnswered() {
+        return isAnswered;
+    }
+
+    public void setIsAnswered(String isAnswered) {
+        this.isAnswered = isAnswered;
+    }
 
     public int getVote() {
         return vote;
@@ -51,13 +68,7 @@ public class Comment {
         this.commentContent = commentContent;
     }
 
-    public String getIsAnswered() {
-        return isAnswered;
-    }
 
-    public void setIsAnswered(String isAnswered) {
-        this.isAnswered = isAnswered;
-    }
 
     public String getCreatedAt() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

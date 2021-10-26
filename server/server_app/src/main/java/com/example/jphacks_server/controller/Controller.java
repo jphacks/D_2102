@@ -97,6 +97,18 @@ public class Controller {
     }
 
     @CrossOrigin
+    @GetMapping("/comment/{commentId}")
+    public ResponseEntity<String> commentDetailControl(@PathVariable String commentId, HttpServletRequest httpRequest) {
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            return commentService.commentDetail(commentId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
+    @CrossOrigin
     @GetMapping("/subject")
     public ResponseEntity<String> subjectControl(HttpServletRequest httpRequest){
         String responseHeader = httpRequest.getHeader("Authorization");
@@ -161,6 +173,7 @@ public class Controller {
             return createFailedJson();
         }
     }
+
 
 
 
