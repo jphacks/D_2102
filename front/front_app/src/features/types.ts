@@ -54,7 +54,7 @@ export interface READ_NEWS {
 export interface READ_COMMENT {
   commentId: number;
   subjectsName: string;
-  comment_content: string;
+  commentContent: string;
   isAnswered: string;
   createdAt: string;
 }
