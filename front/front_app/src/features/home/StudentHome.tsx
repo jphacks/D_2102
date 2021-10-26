@@ -153,7 +153,7 @@ const StudentHome: React.FC = () => {
                       </TableCell>
                       <TableCell>{row.createdAt}</TableCell>
                       <TableCell>{row.subjectsName}</TableCell>
-                      <TableCell>{omit(row.comment_content)}</TableCell>
+                      <TableCell>{omit(row.commentContent)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

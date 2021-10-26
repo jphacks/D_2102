@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   paper: {
     position: "absolute",
-    textAlign: "center",
     width: 650,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
