@@ -8,6 +8,7 @@ import { Route, BrowserRouter } from "react-router-dom";
 
 import Auth from "./features/auth/Auth";
 import Home from "./features/home/Home";
+import Room from "./features/room/Room";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -28,6 +29,7 @@ ReactDOM.render(
         <div>
           <Route exact path="/login" component={Auth} />
           <Route exact path="/home" component={Home} />
+          <Route exact path="/room/:subjectsId" component={Room} />
         </div>
       </ThemeProvider>
     </BrowserRouter>
