@@ -21,6 +21,9 @@ public class PostCommentService {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    CommentService commentService;
+
     public ResponseEntity<String> postComment(Comment comment, String id, HttpHeaders header){
 
         String query = "INSERT INTO comments(\n" +
@@ -33,7 +36,7 @@ public class PostCommentService {
         ObjectNode root = mapper.createObjectNode();
         int sqlStatus = jdbcTemplate.update(query, Integer.parseInt(id), comment.getSubjectsId(), comment.getCommentContent());
         if(sqlStatus > 0){
-            root.put("status", "success");
+            return commentService.comentAll(id, header);
         }else{
             root.put("status", "failed");
         }
