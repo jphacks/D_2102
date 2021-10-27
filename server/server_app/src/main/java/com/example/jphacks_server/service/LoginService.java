@@ -44,6 +44,7 @@ public class LoginService {
 
         if(users.size() != 0){
             String usersId = String.valueOf(users.get(0).getUsersId());
+
             token = JwtToken.createToken(usersId);
         }
 
@@ -53,6 +54,12 @@ public class LoginService {
         }else{
             root.put("status", "success");
             root.put("Authorization", token);
+            if(users.get(0).getStudentGroupId() != null){
+                root.put("userType", "student");
+            }else{
+                root.put("userType", "teacher");
+            }
+
             responseHeaders.set("Authorization", token);
         }
 
