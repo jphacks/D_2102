@@ -72,9 +72,9 @@ public class HttpRequest {
                 System.out.println("error");
             }
 
-        } catch (Exception e1) {
-            e1.printStackTrace();
-            System.out.println(e1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
         } finally {
             if (con != null) {
                 // コネクションを切断

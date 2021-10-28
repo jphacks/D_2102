@@ -84,7 +84,69 @@ public class CommentService {
     }
 
 
+
     public ResponseEntity<String> commentDetail(String commentId, HttpHeaders header){
+        String query = "select comments.comment_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered, count(comment_vote.comment_id) as vote\n" +
+                "from comments\n" +
+                "left join subjects on comments.subjects_id= subjects.subjects_id\n" +
+                "left join users on comments.users_id = users.users_id \n" +
+                "left join student_group on users.student_group_id = student_group.student_group_id\n" +
+                "left join comment_vote on comments.comment_id = comment_vote.comment_id and comment_vote.comment_vote_is_deleted = 0\n" +
+                "where comments.comment_id = ?\n" +
+                "and users.student_group_id is not null\n" +
+                "group by comments.comment_id\n" +
+                "order by comments.created_at desc;";
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+
+        List<Comment> comment = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Comment.class), commentId);
+
+        try {
+            String json = mapper.writeValueAsString(comment);
+            JsonNode jsonNode = mapper.readTree(json);
+            root.put("student", jsonNode);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+        int nextComment = comment.get(0).getCommentIsAnswered();
+        System.out.println(nextComment);
+        if(nextComment != 0){
+            query = "select comments.comment_id, users.users_name, comments.comment_content, comments.created_at, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered\n" +
+                    "from comments\n" +
+                    "left join users on comments.users_id = users.users_id \n" +
+                    "left join student_group on users.student_group_id = student_group.student_group_id\n" +
+                    "where comments.comment_id = ?\n" +
+                    "and users.student_group_id is null\n" +
+                    "order by comments.created_at desc";
+
+            comment = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Comment.class), nextComment);
+            try {
+                String json = mapper.writeValueAsString(comment);
+                JsonNode jsonNode = mapper.readTree(json);
+                root.put("teacher", jsonNode);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(root), header, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+
+    }
+
+    public ResponseEntity<String> textPair(String commentId, HttpHeaders header){
         String query = "select comments.comment_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered, count(comment_vote.comment_id) as vote\n" +
                 "from comments\n" +
                 "left join subjects on comments.subjects_id= subjects.subjects_id\n" +
