@@ -10,6 +10,7 @@ import {
   fetchAsyncGetComment,
 } from "./studentHomeSlice";
 
+import { NavLink } from "react-router-dom";
 import styles from "./StudentHome.module.css";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -118,6 +119,7 @@ const StudentHome: React.FC = () => {
                       <TableCell>
                         {row.isRead === "read" ? "" : "未開封"}
                       </TableCell>
+                      <TableCell>{row.createdAt}</TableCell>
                       <TableCell>{row.newsSubject}</TableCell>
                     </TableRow>
                   ))}
@@ -148,12 +150,20 @@ const StudentHome: React.FC = () => {
                 <TableBody>
                   {displasyComments.map((row, rowIndex) => (
                     <TableRow key={rowIndex} hover>
-                      <TableCell>
-                        {row.isAnswered === "Answered" ? "回答済み" : "未回答"}
-                      </TableCell>
-                      <TableCell>{row.createdAt}</TableCell>
-                      <TableCell>{row.subjectsName}</TableCell>
-                      <TableCell>{omit(row.commentContent)}</TableCell>
+                      <NavLink
+                        exact
+                        to={"/comment/" + row.commentId}
+                        className={styles.student_home__nav}
+                      >
+                        <TableCell>
+                          {row.isAnswered === "Answered"
+                            ? "回答済み"
+                            : "未回答"}
+                        </TableCell>
+                        <TableCell>{row.createdAt}</TableCell>
+                        <TableCell>{row.subjectsName}</TableCell>
+                        <TableCell>{omit(row.commentContent)}</TableCell>
+                      </NavLink>
                     </TableRow>
                   ))}
                 </TableBody>
