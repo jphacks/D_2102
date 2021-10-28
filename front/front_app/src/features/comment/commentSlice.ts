@@ -58,15 +58,15 @@ export const commentSlice = createSlice({
           ...state,
           studentComment: action.payload.student,
           teacherComment:
-            action.payload.teacher === null
+            typeof action.payload.teacher === "undefined"
               ? initialState.teacherComment
               : action.payload.teacher,
         };
       }
     );
-    // builder.addCase(fetchAsyncGetComment.rejected, () => {
-    //   window.location.href = "/login";
-    // });
+    builder.addCase(fetchAsyncGetComment.rejected, () => {
+      window.location.href = "/login";
+    });
   },
 });
 
