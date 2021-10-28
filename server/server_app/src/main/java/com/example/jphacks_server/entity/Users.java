@@ -15,7 +15,7 @@ public class Users{
     private String schoolsName;
     private String studentGroupName;
     private int studentGroupGrade;
-    private int studentGroupId;
+    private Integer studentGroupId;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -93,11 +93,11 @@ public class Users{
         this.studentGroupGrade = studentGroupGrade;
     }
 
-    public int getStudentGroupId() {
+    public Integer getStudentGroupId() {
         return studentGroupId;
     }
 
-    public void setStudentGroupId(int studentGroupId) {
+    public void setStudentGroupId(Integer studentGroupId) {
         this.studentGroupId = studentGroupId;
     }
 
