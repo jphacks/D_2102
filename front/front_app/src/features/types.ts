@@ -71,7 +71,7 @@ export interface STUDENT_HOME_STATE {
 /*commentSlice.ts*/
 export interface READ_COMMENT_STATE {
   student: READ_COMMENT[];
-  teacher: READ_COMMENT[] | null;
+  teacher: READ_COMMENT[] | undefined;
 }
 export interface COMMENT_STATE {
   studentComment: READ_COMMENT[];
