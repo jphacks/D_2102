@@ -27,8 +27,7 @@ public class LoginService {
     private JdbcTemplate jdbcTemplate;
     HttpHeaders responseHeaders = new HttpHeaders();
 
-    @Value("${GOO_API_KEY}")
-    private String property;
+
 
     public LoginService(){
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -40,7 +39,6 @@ public class LoginService {
         String query = "SELECT * from users where users_login_id = ? and users_login_password = ?";
         String token = null;
 
-        System.out.println(property);
 
         List<Users> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Users.class), usersData.getUsersLoginId(), usersData.getUsersLoginPassword());
 

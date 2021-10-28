@@ -30,6 +30,7 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -49,8 +50,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>json-smart</artifactId>
+		</dependency>
 
-<!--		<dependency>-->
+		<!--		<dependency>-->
 <!--			<groupId>com.fasterxml.jackson.core</groupId>-->
 <!--			<artifactId>jackson-core</artifactId>-->
 <!--			<version>2.9.7</version>-->

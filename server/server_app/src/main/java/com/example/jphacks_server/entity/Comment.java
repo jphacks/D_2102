@@ -5,12 +5,22 @@ import java.text.SimpleDateFormat;
 public class Comment {
     private int commentId;
     private int subjectsId;
+    private String usersName;
     private int vote;
     private String subjectsName;
     private String commentContent;
     private String isAnswered;
     private String createdAt;
     private int commentIsAnswered;
+
+
+    public String getUsersName() {
+        return usersName;
+    }
+
+    public void setUsersName(String usersName) {
+        this.usersName = usersName;
+    }
 
     public int getCommentIsAnswered() {
         return commentIsAnswered;
