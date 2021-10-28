@@ -72,15 +72,19 @@ const initialState: STUDENT_HOME_STATE = {
       newsSubject: "",
       newsText: "",
       isRead: "",
+      createdAt: "",
     },
   ],
   comments: [
     {
       commentId: 0,
+      subjectsId: 0,
+      vote: 0,
       subjectsName: "",
       commentContent: "",
       isAnswered: "",
       createdAt: "",
+      commentIsAnswered: 0,
     },
   ],
 };

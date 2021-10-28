@@ -50,16 +50,30 @@ export interface READ_NEWS {
   newsSubject: string;
   newsText: string;
   isRead: string;
+  createdAt: string;
 }
 export interface READ_COMMENT {
   commentId: number;
+  subjectsId: number;
+  vote: number;
   subjectsName: string;
   commentContent: string;
   isAnswered: string;
   createdAt: string;
+  commentIsAnswered: number;
 }
 export interface STUDENT_HOME_STATE {
   commentNews: READ_COMMENT_NEWS[];
   news: READ_NEWS[];
   comments: READ_COMMENT[];
+}
+
+/*commentSlice.ts*/
+export interface READ_COMMENT_STATE {
+  student: READ_COMMENT[];
+  teacher: READ_COMMENT[] | undefined;
+}
+export interface COMMENT_STATE {
+  studentComment: READ_COMMENT[];
+  teacherComment: READ_COMMENT[];
 }
