@@ -226,7 +226,12 @@ export const App: React.FC = ({ children }) => {
           </div>
           <Divider />
           <List>
-            <NavLink exact to="/home" activeStyle={current}>
+            <NavLink
+              exact
+              to="/home"
+              className={styles.app__nav}
+              activeStyle={current}
+            >
               <ListItem button>
                 <ListItemIcon>
                   <HomeRoundedIcon />
