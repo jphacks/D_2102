@@ -89,22 +89,22 @@ public class CommentService {
 
 
 
-    public ResponseEntity<String> commentDetail(String commentId, HttpHeaders header){
-        String query = "select comments.comment_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered, count(comment_vote.comment_id) as vote\n" +
+    public ResponseEntity<String> commentDetail(String commentId, String usersId, HttpHeaders header){
+        String query = "select comments.comment_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, if(comments.comment_is_answered = 0,\"notAnswered\",\"Answered\") as is_answered, if(sum(comment_vote.users_id = ?),\"true\",\"false\") as voted, count(comment_vote.comment_id) as vote\n" +
                 "from comments\n" +
                 "left join subjects on comments.subjects_id= subjects.subjects_id\n" +
-                "left join users on comments.users_id = users.users_id \n" +
+                "left join users on comments.users_id = users.users_id\n" +
                 "left join student_group on users.student_group_id = student_group.student_group_id\n" +
                 "left join comment_vote on comments.comment_id = comment_vote.comment_id and comment_vote.comment_vote_is_deleted = 0\n" +
                 "where comments.comment_id = ?\n" +
                 "and users.student_group_id is not null\n" +
                 "group by comments.comment_id\n" +
-                "order by comments.created_at desc;";
+                "order by comments.created_at desc";
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();
 
-        List<Comment> comment = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Comment.class), commentId);
+        List<Comment> comment = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Comment.class), Integer.parseInt(usersId) ,commentId);
 
         try {
             String json = mapper.writeValueAsString(comment);
@@ -179,7 +179,7 @@ public class CommentService {
             String strJson = HttpRequest.callPost(targetComment.getCommentContent(), inspectionComment.getCommentContent());
             JSONObject jsonObj = (JSONObject) JSONValue.parse(strJson);
             System.out.println(jsonObj.get("score"));
-            if((double)jsonObj.get("score") > 0.750){
+            if((double)jsonObj.get("score") > 0.80){
                 commentResult.add(inspectionComment);
             }
         }

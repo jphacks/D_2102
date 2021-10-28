@@ -11,8 +11,17 @@ public class Comment {
     private String commentContent;
     private String isAnswered;
     private String createdAt;
+    private String voted;
     private int commentIsAnswered;
 
+
+    public String getVoted() {
+        return voted;
+    }
+
+    public void setVoted(String voted) {
+        this.voted = voted;
+    }
 
     public String getUsersName() {
         return usersName;
