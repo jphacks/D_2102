@@ -17,7 +17,7 @@ public class HttpRequest {
 
 
 
-    public static String callPost() {
+    public static String callPost(String target, String inspection) {
 
         HttpURLConnection con = null;
         StringBuffer result = new StringBuffer();
@@ -39,8 +39,7 @@ public class HttpRequest {
             con.setRequestProperty("Accept-Language", "jp");
             con.setRequestProperty("Content-Type", "application/JSON; charset=utf-8");
             OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
-            String postParam = "{\"app_id\":\"" + appKey + "\", \"request_id\":\"record007\", \"text1\":\"高橋さんはアメリカに出張に行きました。\", \"text2\":\"山田さんはイギリスに留学している。\"}";
-            System.out.println(postParam);
+            String postParam = "{\"app_id\":\"" + appKey + "\",  \"text1\":\"" + target + "\", \"text2\":\"" + inspection + "\"}";
             out.write(postParam);
 
             out.close();
@@ -81,6 +80,8 @@ public class HttpRequest {
                 con.disconnect();
             }
         }
+
+        System.out.println(result.toString());
 
 
         return result.toString();

@@ -114,7 +114,7 @@ public class Controller {
         String responseHeader = httpRequest.getHeader("Authorization");
         String usersId = JwtToken.verify(responseHeader);
         if(!usersId.equals("Exception")){
-            return commentService.textPair(commentId, requestHeaders);
+            return commentService.textPair(commentId, usersId,  requestHeaders);
         }else{
             return createFailedJson();
         }

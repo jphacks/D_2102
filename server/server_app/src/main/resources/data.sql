@@ -263,6 +263,26 @@ INSERT INTO comments(
 );
 
 
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    1, 1, "テストのテストです",0
+);
+
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    1, 1, "親譲おやゆずりの無鉄砲むてっぽうで小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰こしを抜ぬかした事がある。なぜそんな無闇むやみをしたと聞く人があるかも知れぬ。",0
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    1, 1, "国語のワークでここがわかりません。どのように解きますか？？",0
+);
+
+
 INSERT INTO question_group(
     answer_comment_id, question_comment_id
 ) values(

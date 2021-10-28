@@ -39,7 +39,6 @@ public class LoginService {
         String query = "SELECT * from users where users_login_id = ? and users_login_password = ?";
         String token = null;
 
-        System.out.println(HttpRequest.callPost());
 
         List<Users> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Users.class), usersData.getUsersLoginId(), usersData.getUsersLoginPassword());
 
