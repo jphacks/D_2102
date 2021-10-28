@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +27,9 @@ public class LoginService {
     private JdbcTemplate jdbcTemplate;
     HttpHeaders responseHeaders = new HttpHeaders();
 
+    @Value("${GOO_API_KEY}")
+    private String property;
+
     public LoginService(){
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
     }
@@ -35,6 +39,8 @@ public class LoginService {
     public ResponseEntity<String> login(Users usersData){
         String query = "SELECT * from users where users_login_id = ? and users_login_password = ?";
         String token = null;
+
+        System.out.println(property);
 
         List<Users> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Users.class), usersData.getUsersLoginId(), usersData.getUsersLoginPassword());
 
