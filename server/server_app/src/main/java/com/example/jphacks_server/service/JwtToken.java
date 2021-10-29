@@ -18,7 +18,7 @@ public class JwtToken {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private static final Long EXPIRATION_TIME = 1000L * 60L * 60L;
+    private static final Long EXPIRATION_TIME = 1000L * 60L * 60L * 24L;
 
 
 
