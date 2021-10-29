@@ -8,12 +8,12 @@ import {
   selectStudentComment,
   selectTeacherComment,
   fetchAsyncGetComment,
+  fetchAsyncCreateComment,
 } from "./commentSlice";
 
 import styles from "./Comment.module.css";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
@@ -35,9 +35,6 @@ const Comment: React.FC<CommentProps> = (props) => {
 
   const studentComment = useSelector(selectStudentComment);
   const teacherComment = useSelector(selectTeacherComment);
-  // const voteNumber = useSelector();
-
-  const [vote, setVote] = useState(1);
 
   useEffect(() => {
     const fetchBootLoader = async () => {
@@ -76,13 +73,21 @@ const Comment: React.FC<CommentProps> = (props) => {
               className={styles.comment__vote_button}
               aria-label="vote"
               onClick={() => {
-                setVote(vote + 1);
+                !studentComment[0].voted
+                  ? dispatch(
+                      fetchAsyncCreateComment({
+                        commentId: studentComment[0].commentId,
+                      })
+                    )
+                  : console.log("delete");
               }}
             >
               <AddCircleIcon />
             </IconButton>
             <div className={styles.comment__vote_box}>
-              <p className={styles.comment__vote_number}>{vote}</p>
+              <p className={styles.comment__vote_number}>
+                {studentComment[0].vote}
+              </p>
               <p>知りたい！</p>
             </div>
             <p>{studentComment[0].commentContent}</p>
