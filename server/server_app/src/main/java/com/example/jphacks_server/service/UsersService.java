@@ -50,6 +50,26 @@ public class UsersService {
 
     }
 
+    public ResponseEntity<String> findTeacherAll(String id, HttpHeaders header){
+
+        String query = "select users.users_id, users.users_name, users.schools_id, schools.schools_name from users left join schools on users.schools_id = schools.schools_id where users.users_id = ?";
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+        List<Users> users = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Users.class), Integer.parseInt(id));
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(users), header, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+
+    }
+
 
 
 }

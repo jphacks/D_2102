@@ -83,6 +83,8 @@ public class Controller {
         }
     }
 
+
+
     @CrossOrigin
     @GetMapping("/comment")
     public ResponseEntity<String> commnetControl(HttpServletRequest httpRequest){
@@ -232,6 +234,22 @@ public class Controller {
         String usersId = JwtToken.verify(responseHeader);
         if(!usersId.equals("Exception")){
             return commentService.commentTeacherNotAnswered(usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
+
+
+
+    @CrossOrigin
+    @GetMapping("/teacher")
+    public ResponseEntity<String> teacherControl(HttpServletRequest httpRequest){
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            requestHeaders.set("Authorization", responseHeader);
+            return usersService.findTeacherAll(usersId, requestHeaders);
         }else{
             return createFailedJson();
         }
