@@ -46,6 +46,7 @@ const initialState: COMMENT_STATE = {
     {
       commentId: 0,
       subjectsId: 0,
+      usersName: null,
       vote: 0,
       voted: false,
       subjectsName: "",
@@ -59,6 +60,7 @@ const initialState: COMMENT_STATE = {
     {
       commentId: 0,
       subjectsId: 0,
+      usersName: null,
       vote: 0,
       voted: false,
       subjectsName: "",
