@@ -69,6 +69,7 @@ const initialState: STUDENT_HOME_STATE = {
     {
       newsId: 0,
       studentGroupId: 0,
+      userName: "",
       newsSubject: "",
       newsText: "",
       isRead: "",
@@ -79,6 +80,7 @@ const initialState: STUDENT_HOME_STATE = {
     {
       commentId: 0,
       subjectsId: 0,
+      usersName: null,
       vote: 0,
       voted: false,
       subjectsName: "",
