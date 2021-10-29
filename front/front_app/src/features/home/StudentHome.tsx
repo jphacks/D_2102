@@ -120,6 +120,7 @@ const StudentHome: React.FC = () => {
                         {row.isRead === "read" ? "" : "未開封"}
                       </TableCell>
                       <TableCell>{row.createdAt}</TableCell>
+                      <TableCell>{row.userName}</TableCell>
                       <TableCell>{row.newsSubject}</TableCell>
                     </TableRow>
                   ))}
