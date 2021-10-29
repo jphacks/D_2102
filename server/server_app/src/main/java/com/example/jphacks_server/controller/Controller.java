@@ -213,6 +213,32 @@ public class Controller {
         }
     }
 
+    @CrossOrigin
+    @GetMapping("/teacher/comment/answered")
+    public ResponseEntity<String> teacherCommentAnsweredControl(HttpServletRequest httpRequest) {
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            return commentService.commentTeacherAnswered(usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping("/teacher/comment/notAnswered")
+    public ResponseEntity<String> teacherCommentNotAnsweredControl(HttpServletRequest httpRequest) {
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            return commentService.commentTeacherNotAnswered(usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
+
+
     private ResponseEntity<String> createFailedJson(){
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();

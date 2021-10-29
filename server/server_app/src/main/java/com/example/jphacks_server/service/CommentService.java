@@ -89,8 +89,80 @@ public class CommentService {
 
 
 
+    public ResponseEntity<String> commentTeacherAnswered(String userId,  HttpHeaders header){
+
+        String query = "select comments.comment_id, subjects.subjects_id, subjects.subjects_name, comments.comment_content, comments.created_at, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered, count(comment_vote.comment_id) as vote\n" +
+                "from (comments, users)\n" +
+                "left join subjects on comments.subjects_id= subjects.subjects_id\n" +
+                "left join comment_vote on comments.comment_id = comment_vote.comment_id and comment_vote.comment_vote_is_deleted = 0\n" +
+                "where comments.subjects_id in (\n" +
+                "  select subjects.subjects_id\n" +
+                "  from subjects\n" +
+                "  left join course_director on subjects.subjects_id = course_director.subjects_id\n" +
+                "  left join users on course_director.users_id = users.users_id\n" +
+                "  where users.users_id = ?\n" +
+                ")\n" +
+                "and comments.users_id = users.users_id\n" +
+                "and users.student_group_id is not null\n" +
+                "and comments.comment_is_answered != 0\n" +
+                "group by comments.comment_id\n" +
+                "order by comments.created_at desc";
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+        List<Comment> comments = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Comment.class), Integer.parseInt(userId));
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(comments), header, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+
+    }
+
+
+    public ResponseEntity<String> commentTeacherNotAnswered(String userId,  HttpHeaders header){
+
+        String query = "select comments.comment_id, subjects.subjects_id, subjects.subjects_name, comments.comment_content, comments.created_at, if(comments.comment_is_answered = 0, \"notAnswered\",\"Answered\") as is_answered, count(comment_vote.comment_id) as vote\n" +
+                "from (comments, users)\n" +
+                "left join subjects on comments.subjects_id= subjects.subjects_id\n" +
+                "left join comment_vote on comments.comment_id = comment_vote.comment_id and comment_vote.comment_vote_is_deleted = 0\n" +
+                "where comments.subjects_id in (\n" +
+                "  select subjects.subjects_id\n" +
+                "  from subjects\n" +
+                "  left join course_director on subjects.subjects_id = course_director.subjects_id\n" +
+                "  left join users on course_director.users_id = users.users_id\n" +
+                "  where users.users_id = ?\n" +
+                ")\n" +
+                "and comments.users_id = users.users_id\n" +
+                "and users.student_group_id is not null\n" +
+                "and comments.comment_is_answered = 0\n" +
+                "group by comments.comment_id\n" +
+                "order by comments.created_at desc";
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+        List<Comment> comments = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Comment.class), Integer.parseInt(userId));
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(comments), header, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+
+    }
+
+
+
+
     public ResponseEntity<String> commentDetail(String commentId, String usersId, HttpHeaders header){
-        String query = "select comments.comment_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, if(comments.comment_is_answered = 0,\"notAnswered\",\"Answered\") as is_answered, if(sum(comment_vote.users_id = ?),\"true\",\"false\") as voted, count(comment_vote.comment_id) as vote\n" +
+        String query = "select comments.comment_id, subjects.subjects_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, if(comments.comment_is_answered = 0,\"notAnswered\",\"Answered\") as is_answered, if(sum(comment_vote.users_id = ?),\"true\",\"false\") as voted, count(comment_vote.comment_id) as vote\n" +
                 "from comments\n" +
                 "left join subjects on comments.subjects_id= subjects.subjects_id\n" +
                 "left join users on comments.users_id = users.users_id\n" +
