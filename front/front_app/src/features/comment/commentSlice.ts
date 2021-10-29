@@ -5,7 +5,8 @@ import {
   COMMENT_STATE,
   READ_COMMENT_STATE,
   POST_VOTE,
-  REQUEST_STATUS,
+  RESPONSE_STATUS,
+  READ_COMMENT,
 } from "../types";
 
 export const fetchAsyncGetComment = createAsyncThunk(
@@ -24,12 +25,28 @@ export const fetchAsyncGetComment = createAsyncThunk(
   }
 );
 
-export const fetchAsyncCreateComment = createAsyncThunk(
+export const fetchAsyncCreateVote = createAsyncThunk(
   "comment/createVote",
   async (vote: POST_VOTE) => {
-    const res = await axios.post<REQUEST_STATUS>(
+    const res = await axios.post<RESPONSE_STATUS>(
       `${process.env.REACT_APP_API_URL}/api/votePost/`,
       vote,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.localJWT}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
+export const fetchAsyncGetTextpearComment = createAsyncThunk(
+  "comment/getTextpearComment",
+  async (commentId: number) => {
+    const res = await axios.get<READ_COMMENT[]>(
+      `${process.env.REACT_APP_API_URL}/api/comment/textpear/${commentId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -70,6 +87,20 @@ const initialState: COMMENT_STATE = {
       commentIsAnswered: 0,
     },
   ],
+  textpearComments: [
+    {
+      commentId: 0,
+      subjectsId: 0,
+      usersName: null,
+      vote: 0,
+      voted: false,
+      subjectsName: "",
+      commentContent: "",
+      isAnswered: "",
+      createdAt: "",
+      commentIsAnswered: 0,
+    },
+  ],
 };
 
 export const commentSlice = createSlice({
@@ -93,11 +124,26 @@ export const commentSlice = createSlice({
     builder.addCase(fetchAsyncGetComment.rejected, () => {
       window.location.href = "/login";
     });
-    builder.addCase(fetchAsyncCreateComment.fulfilled, (state) => {
+    builder.addCase(fetchAsyncCreateVote.fulfilled, (state) => {
       state.studentComment[0].vote = state.studentComment[0].vote + 1;
       state.studentComment[0].voted = !state.studentComment[0].voted;
     });
-    builder.addCase(fetchAsyncCreateComment.rejected, () => {
+    builder.addCase(fetchAsyncCreateVote.rejected, () => {
+      window.location.href = "/login";
+    });
+    builder.addCase(
+      fetchAsyncGetTextpearComment.fulfilled,
+      (state, action: PayloadAction<READ_COMMENT[]>) => {
+        return {
+          ...state,
+          textpearComments:
+            action.payload.length === 0
+              ? initialState.textpearComments
+              : action.payload,
+        };
+      }
+    );
+    builder.addCase(fetchAsyncGetTextpearComment.rejected, () => {
       window.location.href = "/login";
     });
   },
@@ -108,5 +154,7 @@ export const selectStudentComment = (state: RootState) =>
   state.comment.studentComment;
 export const selectTeacherComment = (state: RootState) =>
   state.comment.teacherComment;
+export const selectTextpearComments = (state: RootState) =>
+  state.comment.textpearComments;
 
 export default commentSlice.reducer;
