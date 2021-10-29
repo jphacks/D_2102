@@ -8,7 +8,7 @@ import {
   USER,
   READ_SUBJECT,
   POST_COMMENT,
-  REQUEST_STATUS,
+  READ_COMMENT,
 } from "../types";
 
 export const fetchAsyncLogin = createAsyncThunk(
@@ -59,7 +59,7 @@ export const fetchAsyncGetSubject = createAsyncThunk(
 export const fetchAsyncCreateComment = createAsyncThunk(
   "auth/createComment",
   async (comment: POST_COMMENT) => {
-    const res = await axios.post<REQUEST_STATUS>(
+    const res = await axios.post<READ_COMMENT>(
       `${process.env.REACT_APP_API_URL}/api/postComment/`,
       comment,
       {
@@ -143,7 +143,7 @@ export const authSlice = createSlice({
     });
     builder.addCase(
       fetchAsyncCreateComment.fulfilled,
-      (state, action: PayloadAction<REQUEST_STATUS>) => {
+      (state, action: PayloadAction<READ_COMMENT>) => {
         return {
           ...state,
           editedComment: initialState.editedComment,
