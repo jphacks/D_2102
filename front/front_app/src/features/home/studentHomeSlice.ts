@@ -80,6 +80,7 @@ const initialState: STUDENT_HOME_STATE = {
       commentId: 0,
       subjectsId: 0,
       vote: 0,
+      voted: false,
       subjectsName: "",
       commentContent: "",
       isAnswered: "",
