@@ -69,7 +69,7 @@ const Comment: React.FC<CommentProps> = (props) => {
           </div>
           <div className={styles.comment__content_box}>
             <IconButton
-              color="primary"
+              color={studentComment[0].voted ? "default" : "default"}
               className={styles.comment__vote_button}
               aria-label="vote"
               onClick={() => {
@@ -84,7 +84,12 @@ const Comment: React.FC<CommentProps> = (props) => {
             >
               <AddCircleIcon />
             </IconButton>
-            <div className={styles.comment__vote_box}>
+            <div
+              className={[
+                styles.comment__vote_box,
+                studentComment[0].voted && styles.comment__voted,
+              ].join(" ")}
+            >
               <p className={styles.comment__vote_number}>
                 {studentComment[0].vote}
               </p>
@@ -100,7 +105,7 @@ const Comment: React.FC<CommentProps> = (props) => {
           <>
             <Paper className={classes.paper}>
               <div className={styles.comment__head}>
-                <p>下村芽生先生</p>
+                <p>{teacherComment[0].usersName}先生</p>
               </div>
               <div className={styles.comment__content_box}>
                 <p>{teacherComment[0].commentContent}</p>
