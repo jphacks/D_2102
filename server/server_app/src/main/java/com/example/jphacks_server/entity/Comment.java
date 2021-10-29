@@ -15,8 +15,16 @@ public class Comment {
     private int commentIsAnswered;
 
 
-    public String getVoted() {
-        return voted;
+    public Boolean getVoted() {
+        if(voted != null){
+            if(voted.equals("true")){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return null;
+        }
     }
 
     public void setVoted(String voted) {
