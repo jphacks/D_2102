@@ -7,8 +7,10 @@ import App from "../../App";
 import {
   selectStudentComment,
   selectTeacherComment,
+  selectTextpearComments,
   fetchAsyncGetComment,
-  fetchAsyncCreateComment,
+  fetchAsyncCreateVote,
+  fetchAsyncGetTextpearComment,
 } from "./commentSlice";
 
 import styles from "./Comment.module.css";
@@ -35,10 +37,12 @@ const Comment: React.FC<CommentProps> = (props) => {
 
   const studentComment = useSelector(selectStudentComment);
   const teacherComment = useSelector(selectTeacherComment);
+  const textpearComments = useSelector(selectTextpearComments);
 
   useEffect(() => {
     const fetchBootLoader = async () => {
       await dispatch(fetchAsyncGetComment(commentId));
+      await dispatch(fetchAsyncGetTextpearComment(commentId));
     };
     fetchBootLoader();
   }, [dispatch, commentId]);
@@ -69,13 +73,13 @@ const Comment: React.FC<CommentProps> = (props) => {
           </div>
           <div className={styles.comment__content_box}>
             <IconButton
-              color={studentComment[0].voted ? "default" : "default"}
+              color={studentComment[0].voted ? "primary" : "default"}
               className={styles.comment__vote_button}
               aria-label="vote"
               onClick={() => {
                 !studentComment[0].voted
                   ? dispatch(
-                      fetchAsyncCreateComment({
+                      fetchAsyncCreateVote({
                         commentId: studentComment[0].commentId,
                       })
                     )
@@ -111,6 +115,38 @@ const Comment: React.FC<CommentProps> = (props) => {
                 <p>{teacherComment[0].commentContent}</p>
               </div>
             </Paper>
+          </>
+        )}
+        {textpearComments[0].commentId !== 0 && (
+          <>
+            <h2 className={styles.comment__h2}>似ている投稿</h2>
+            {textpearComments.map((textpearComment) => (
+              <Paper className={classes.paper}>
+                <div className={styles.comment__head}>
+                  <div
+                    className={[
+                      styles.comment__answer,
+                      textpearComment.isAnswered === "Answered"
+                        ? styles.comment__answered
+                        : styles.comment__not_answered,
+                    ].join(" ")}
+                  >
+                    <p>
+                      {textpearComment.isAnswered === "Answered"
+                        ? "回答済み"
+                        : "未回答"}
+                    </p>
+                  </div>
+                  <div className={styles.comment__subject}>
+                    <p>{textpearComment.subjectsName}</p>
+                  </div>
+                  <p>{textpearComment.createdAt}</p>
+                </div>
+                <div className={styles.comment__content_box}>
+                  <p>{textpearComment.commentContent}</p>
+                </div>
+              </Paper>
+            ))}
           </>
         )}
       </div>

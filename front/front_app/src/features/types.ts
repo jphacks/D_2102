@@ -1,4 +1,4 @@
-export interface REQUEST_STATUS {
+export interface RESPONSE_STATUS {
   status: string;
 }
 /*authSlice.ts*/
@@ -80,6 +80,7 @@ export interface READ_COMMENT_STATE {
 export interface COMMENT_STATE {
   studentComment: READ_COMMENT[];
   teacherComment: READ_COMMENT[];
+  textpearComments: READ_COMMENT[];
 }
 export interface POST_VOTE {
   commentId: number;
