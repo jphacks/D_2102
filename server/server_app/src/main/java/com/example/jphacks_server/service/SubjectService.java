@@ -52,6 +52,28 @@ public class SubjectService {
 
     }
 
+    public ResponseEntity<String> teacherSubjectAll(String id, HttpHeaders header){
+        String query = "select subjects.subjects_id, subjects.subjects_name\n" +
+                "from subjects\n" +
+                "left join course_director on subjects.subjects_id = course_director.subjects_id\n" +
+                "left join users on course_director.users_id = users.users_id\n" +
+                "where users.users_id = ?";
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+        List<Subject> subjects = jdbcTemplate.query(query,new BeanPropertyRowMapper<>(Subject.class), Integer.parseInt(id));
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(subjects), header, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+
+    }
+
 
 
 }

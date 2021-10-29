@@ -132,6 +132,30 @@ INSERT INTO subjects(
     1, "スクールカウンセラー", 1
 );
 
+INSERT INTO subjects(
+    schools_id, subjects_name,subject_one_to_one
+) values(
+    1, "2年国語", 0
+);
+
+INSERT INTO subjects(
+    schools_id, subjects_name,subject_one_to_one
+) values(
+    1, "1年国語",0
+);
+
+INSERT INTO subjects(
+    schools_id, subjects_name,subject_one_to_one
+) values(
+    1, "2年数学", 0
+);
+
+INSERT INTO subjects(
+    schools_id, subjects_name,subject_one_to_one
+) values(
+    1, "1年数学", 0
+);
+
 
 
 INSERT INTO course_director(
@@ -156,6 +180,30 @@ INSERT INTO course_director(
     subjects_id, users_id
 ) values(
     6, 6
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    7, 3
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    8, 3
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    9, 4
+);
+
+INSERT INTO course_director(
+    subjects_id, users_id
+) values(
+    10, 4
 );
 
 

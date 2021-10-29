@@ -201,6 +201,18 @@ public class Controller {
         }
     }
 
+    @CrossOrigin
+    @GetMapping("/teacher/subject")
+    public ResponseEntity<String> teacherSubjectControl(HttpServletRequest httpRequest) {
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            return subjectService.teacherSubjectAll(usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
     private ResponseEntity<String> createFailedJson(){
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();
