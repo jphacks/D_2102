@@ -7,6 +7,7 @@ import {
   editComment,
   handleClose,
 } from "./authSlice";
+import { fetchAsyncGetComment } from "../home/studentHomeSlice";
 import { AppDispatch } from "../../app/store";
 
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
@@ -20,32 +21,14 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  field: {
-    margin: theme.spacing(2),
-    minWidth: 240,
-  },
   button: {
     margin: theme.spacing(3),
   },
 }));
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 const QuestionForm = () => {
-  const theme = useTheme();
   const classes = useStyles();
   const dispatch: AppDispatch = useDispatch();
-  const [value, setValue] = React.useState("");
-  const [personName, setPersonName] = React.useState<string[]>([]);
 
   const subjects = useSelector(selectSubjects);
   const editedComment = useSelector(selectEditedComment);
