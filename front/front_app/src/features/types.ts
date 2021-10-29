@@ -47,6 +47,7 @@ export interface READ_COMMENT_NEWS {
 export interface READ_NEWS {
   newsId: number;
   studentGroupId: number;
+  userName: string;
   newsSubject: string;
   newsText: string;
   isRead: string;
@@ -55,6 +56,7 @@ export interface READ_NEWS {
 export interface READ_COMMENT {
   commentId: number;
   subjectsId: number;
+  usersName: string | null;
   vote: number;
   voted: boolean;
   subjectsName: string;
