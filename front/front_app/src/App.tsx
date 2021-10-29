@@ -151,6 +151,7 @@ export const App: React.FC = ({ children }) => {
 
   const Logout = () => {
     localStorage.removeItem("localJWT");
+    localStorage.removeItem("localUserType");
     window.location.href = "/login";
   };
 
