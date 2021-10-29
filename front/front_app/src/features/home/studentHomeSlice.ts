@@ -95,7 +95,11 @@ const initialState: STUDENT_HOME_STATE = {
 export const studentHomeSlice = createSlice({
   name: "studentHome",
   initialState,
-  reducers: {},
+  reducers: {
+    addComment(state, action: PayloadAction<READ_COMMENT>) {
+      state.comments = [...state.comments, action.payload];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(
       fetchAsyncGetCommentNews.fulfilled,
@@ -136,8 +140,7 @@ export const studentHomeSlice = createSlice({
   },
 });
 
-export const {} = studentHomeSlice.actions;
-
+export const { addComment } = studentHomeSlice.actions;
 export const selectCommentNews = (state: RootState) =>
   state.studentHome.commentNews;
 export const selectNews = (state: RootState) => state.studentHome.news;

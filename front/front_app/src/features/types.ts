@@ -8,6 +8,7 @@ export interface CRED {
 }
 export interface JWT {
   Authorization: string;
+  userType: string;
 }
 export interface USER {
   usersId: number;
