@@ -71,6 +71,10 @@ export interface STUDENT_HOME_STATE {
   news: READ_NEWS[];
   comments: READ_COMMENT[];
 }
+/*teacherHomeSlice.ts*/
+export interface TEACHER_HOME_STATE {
+  comments: READ_COMMENT[];
+}
 
 /*commentSlice.ts*/
 export interface READ_COMMENT_STATE {
