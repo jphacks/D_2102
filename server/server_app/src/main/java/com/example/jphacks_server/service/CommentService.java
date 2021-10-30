@@ -226,6 +226,7 @@ public class CommentService {
 
     public ResponseEntity<String> textPair(String commentId, String userId, HttpHeaders header){
         String targetCommentQuery = "select * from comments where comment_id = ?";
+
         String inspectionQuery = "select comments.comment_id, subjects.subjects_name, users.student_group_id, comments.comment_content, comments.created_at, comments.comment_is_answered, count(comment_vote.comment_id) as vote\n" +
                 "from comments\n" +
                 "left join subjects on comments.subjects_id= subjects.subjects_id\n" +
@@ -242,18 +243,21 @@ public class CommentService {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = mapper.createObjectNode();
 
-        List<Comment> targetComments = jdbcTemplate.query(targetCommentQuery, new BeanPropertyRowMapper<>(Comment.class), commentId);
-
+        List<Comment> targetComments = jdbcTemplate.query(targetCommentQuery, new BeanPropertyRowMapper<>(Comment.class), Integer.parseInt(commentId));
+        System.out.println(targetComments.get(0).getCommentId());
+        System.out.println(targetComments.get(0).getCommentContent());
         Comment targetComment = targetComments.get(0);
 
         List<Comment> inspectionComments = jdbcTemplate.query(inspectionQuery,new BeanPropertyRowMapper<>(Comment.class), targetComment.getSubjectsId(), targetComment.getCommentId() ,Integer.parseInt(userId));
         List<Comment> commentResult = new ArrayList<Comment>();
 
         for(Comment inspectionComment: inspectionComments){
+            System.out.println(targetComment.getCommentContent());
             String strJson = HttpRequest.callPost(targetComment.getCommentContent(), inspectionComment.getCommentContent());
+            System.out.println(strJson);
             JSONObject jsonObj = (JSONObject) JSONValue.parse(strJson);
             System.out.println(jsonObj.get("score"));
-            if((double)jsonObj.get("score") > 0.80){
+            if((double)jsonObj.get("score") > 0.65){
                 commentResult.add(inspectionComment);
             }
         }

@@ -253,19 +253,19 @@ INSERT INTO group_director(
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 1, "国語の問題のここがわかりません", 9
+    1, 1, "尼ぜ、われをば「いづち」へ具して行かんとするぞ。の「いづち」はどのような意味ですか？", 0
 );
 
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 1, "国語のワークの意図がわかりません",0
+    1, 1, "妻戸を、「やはら」、かい放つ音すなり。の問題がわかりません", 7
 );
 
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    2, 2, "数学のワークのp56の問2がわかりません", 8
+    2, 2, "この公式の証明はどうやればいいですか？", 6
 );
 
 INSERT INTO comments(
@@ -289,7 +289,7 @@ INSERT INTO comments(
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    5, 1, "教科書をよく読みましょう", 0
+    5, 1, "「やはら」は「そっと」という意味になります。先日配ったプリントにも記載されているので、もう一度見返してみましょう", 0
 );
 
 INSERT INTO comments(
@@ -314,20 +314,26 @@ INSERT INTO comments(
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 1, "テストのテストです",0
+    1, 1, "教科書の78ページのところの[「そんなこと知らないよ。」と前田君が顔をしかめた。]の部分ですが、この時の前田君はどのような気持ちでそれを言ったのでしょうか？",0
 );
 
 
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 1, "親譲おやゆずりの無鉄砲むてっぽうで小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰こしを抜ぬかした事がある。なぜそんな無闇むやみをしたと聞く人があるかも知れぬ。",0
+    1, 1, "問題の「親譲おやゆずりの無鉄砲むてっぽうで小供の時から損ばかりしている。はどのような気持ちか答えよ」の意味がわかりません。",0
 );
 
 INSERT INTO comments(
     users_id, subjects_id, comment_content, comment_is_answered
 ) values(
-    1, 1, "国語のワークでここがわかりません。どのように解きますか？？",0
+    1, 1, "国語のワークでp234の漢文を訳す問題ですが、どう頑張っても答えにたどりつけません。訳すコツなどあれば教えていただきたいです。",0
+);
+
+INSERT INTO comments(
+    users_id, subjects_id, comment_content, comment_is_answered
+) values(
+    2, 1, "国語の「やはら」とはどういう意味でしょうか？",0
 );
 
 
