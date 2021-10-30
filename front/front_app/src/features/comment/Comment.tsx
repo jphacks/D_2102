@@ -12,14 +12,21 @@ import {
   fetchAsyncCreateVote,
   fetchAsyncGetTextpearComment,
 } from "./commentSlice";
+import { handleOpen } from "../auth/authSlice";
 
 import styles from "./Comment.module.css";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import { Button } from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 const useStyles = makeStyles((theme: Theme) => ({
+  button: {
+    padding: theme.spacing(1.5, 3),
+    margin: theme.spacing(2),
+  },
   paper: {
     padding: theme.spacing(3),
     marginBottom: theme.spacing(8),
@@ -38,6 +45,8 @@ const Comment: React.FC<CommentProps> = (props) => {
   const studentComment = useSelector(selectStudentComment);
   const teacherComment = useSelector(selectTeacherComment);
   const textpearComments = useSelector(selectTextpearComments);
+
+  const userType = localStorage.getItem("localUserTyoe");
 
   useEffect(() => {
     const fetchBootLoader = async () => {
@@ -101,6 +110,24 @@ const Comment: React.FC<CommentProps> = (props) => {
             </div>
             <p>{studentComment[0].commentContent}</p>
           </div>
+          {userType === "teacher" && (
+            <Button
+              className={classes.button}
+              variant="contained"
+              size="small"
+              color="primary"
+              startIcon={<ChatBubbleIcon />}
+              onClick={() => {
+                dispatch(
+                  handleOpen({
+                    formNumber: 2,
+                  })
+                );
+              }}
+            >
+              返信する
+            </Button>
+          )}
         </Paper>
         <h2 className={styles.comment__h2}>回答</h2>
         {teacherComment[0].commentId === 0 ? (

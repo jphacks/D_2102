@@ -7,6 +7,7 @@ import {
   POST_VOTE,
   RESPONSE_STATUS,
   READ_COMMENT,
+  POST_REPLY,
 } from "../types";
 
 export const fetchAsyncGetComment = createAsyncThunk(
@@ -101,12 +102,21 @@ const initialState: COMMENT_STATE = {
       commentIsAnswered: 0,
     },
   ],
+  editedReply: {
+    subjectsId: 0,
+    commentContent: "",
+    commentIsAnswered: 0,
+  },
 };
 
 export const commentSlice = createSlice({
   name: "comment",
   initialState,
-  reducers: {},
+  reducers: {
+    editReply(state, action: PayloadAction<POST_REPLY>) {
+      state.editedReply = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(
       fetchAsyncGetComment.fulfilled,
@@ -149,12 +159,14 @@ export const commentSlice = createSlice({
   },
 });
 
-export const {} = commentSlice.actions;
+export const { editReply } = commentSlice.actions;
 export const selectStudentComment = (state: RootState) =>
   state.comment.studentComment;
 export const selectTeacherComment = (state: RootState) =>
   state.comment.teacherComment;
 export const selectTextpearComments = (state: RootState) =>
   state.comment.textpearComments;
+export const selectEditedReply = (state: RootState) =>
+  state.comment.editedReply;
 
 export default commentSlice.reducer;

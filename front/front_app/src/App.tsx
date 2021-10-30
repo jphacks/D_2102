@@ -5,12 +5,16 @@ import {
   selectLoginUser,
   selectSubjects,
   selectModalState,
+  selectFormState,
   fetchAsyncGetUser,
+  fetchAsyncGetTeacher,
   fetchAsyncGetSubject,
+  fetchAsyncGetTeacherSubject,
   handleClose,
   handleOpen,
 } from "./features/auth/authSlice";
 import QuestionForm from "./features/auth/QuestionForm";
+import ReplyForm from "./features/comment/ReplyForm";
 
 import { NavLink } from "react-router-dom";
 
@@ -42,6 +46,7 @@ import SensorDoorRoundedIcon from "@mui/icons-material/SensorDoorRounded";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { Replay } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
@@ -130,6 +135,7 @@ export const App: React.FC = ({ children }) => {
   const [open, setOpen] = useState(false);
 
   const modalState = useSelector(selectModalState);
+  const formState = useSelector(selectFormState);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalStyle] = useState(getModalStyle);
@@ -140,6 +146,8 @@ export const App: React.FC = ({ children }) => {
 
   const loginUser = useSelector(selectLoginUser);
   const subjects = useSelector(selectSubjects);
+
+  const userType = localStorage.getItem("localUserTyoe");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -163,10 +171,22 @@ export const App: React.FC = ({ children }) => {
     display: "inline-block",
   };
 
+  const formComponent = () => {
+    switch (formState.formNumber) {
+      case 1:
+        return <QuestionForm />;
+      case 2:
+        return <ReplyForm />;
+    }
+  };
+
   useEffect(() => {
     const fetchBootLoader = async () => {
-      await dispatch(fetchAsyncGetUser());
-      await dispatch(fetchAsyncGetSubject());
+      return userType === "student"
+        ? (await dispatch(fetchAsyncGetUser()),
+          await dispatch(fetchAsyncGetSubject()))
+        : (await dispatch(fetchAsyncGetTeacher()),
+          await dispatch(fetchAsyncGetTeacherSubject()));
     };
     fetchBootLoader();
   }, [dispatch]);
@@ -190,7 +210,7 @@ export const App: React.FC = ({ children }) => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              知りたいもん
+              しりたいもん
             </Typography>
           </Toolbar>
         </AppBar>
@@ -220,10 +240,12 @@ export const App: React.FC = ({ children }) => {
           <div className={styles.app__userBox}>
             <p className={styles.app__name}>
               {loginUser.usersName}
-              {loginUser.studentGroupId === null && <>先生</>}
+              {userType === "teacher" && <>先生</>}
             </p>
             <p className={styles.app__scholl}>{loginUser.schoolsName}</p>
-            <p className={styles.app__scholl}>{loginUser.studentGroupName}</p>
+            <p className={styles.app__scholl}>
+              {userType === "student" && loginUser.studentGroupName}
+            </p>
           </div>
           <Divider />
           <List>
@@ -290,10 +312,14 @@ export const App: React.FC = ({ children }) => {
             color="primary"
             startIcon={<AddCircleOutlineIcon />}
             onClick={() => {
-              dispatch(handleOpen());
+              dispatch(
+                handleOpen({
+                  formNumber: 1,
+                })
+              );
             }}
           >
-            質問を投稿する
+            {userType === "student" ? "質問を投稿する" : "お知らせを投稿する"}
           </Button>
           <Divider />
           <List>
@@ -324,7 +350,7 @@ export const App: React.FC = ({ children }) => {
       </Box>
       <Modal open={modalOpen} onClose={() => dispatch(handleClose())}>
         <div style={modalStyle} className={classes.paper}>
-          <QuestionForm />
+          {formComponent()}
         </div>
       </Modal>
     </div>

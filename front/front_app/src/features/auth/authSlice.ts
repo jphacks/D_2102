@@ -9,6 +9,7 @@ import {
   READ_SUBJECT,
   POST_COMMENT,
   READ_COMMENT,
+  FORM_STATE,
 } from "../types";
 
 export const fetchAsyncLogin = createAsyncThunk(
@@ -40,11 +41,43 @@ export const fetchAsyncGetUser = createAsyncThunk("auth/getUser", async () => {
   return res.data;
 });
 
+export const fetchAsyncGetTeacher = createAsyncThunk(
+  "auth/getTeacher",
+  async () => {
+    const res = await axios.get<USER[]>(
+      `${process.env.REACT_APP_API_URL}/api/teacher/`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.localJWT}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
 export const fetchAsyncGetSubject = createAsyncThunk(
   "auth/getSubject",
   async () => {
     const res = await axios.get<READ_SUBJECT[]>(
       `${process.env.REACT_APP_API_URL}/api/subject/`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.localJWT}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
+export const fetchAsyncGetTeacherSubject = createAsyncThunk(
+  "auth/getTeacherSubject",
+  async () => {
+    const res = await axios.get<READ_SUBJECT[]>(
+      `${process.env.REACT_APP_API_URL}/api/teacher/subject/`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -92,6 +125,9 @@ const initialState: AUTH_STATE = {
   modalState: {
     modalOpen: false,
   },
+  formState: {
+    formNumber: 0,
+  },
 };
 
 export const authSlice = createSlice({
@@ -104,8 +140,9 @@ export const authSlice = createSlice({
     handleClose: (state) => {
       state.modalState.modalOpen = false;
     },
-    handleOpen: (state) => {
+    handleOpen: (state, action: PayloadAction<FORM_STATE>) => {
       state.modalState.modalOpen = true;
+      state.formState = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -130,6 +167,18 @@ export const authSlice = createSlice({
       window.location.href = "/login";
     });
     builder.addCase(
+      fetchAsyncGetTeacher.fulfilled,
+      (state, action: PayloadAction<USER[]>) => {
+        return {
+          ...state,
+          loginUser: action.payload[0],
+        };
+      }
+    );
+    builder.addCase(fetchAsyncGetTeacher.rejected, () => {
+      window.location.href = "/login";
+    });
+    builder.addCase(
       fetchAsyncGetSubject.fulfilled,
       (state, action: PayloadAction<READ_SUBJECT[]>) => {
         return {
@@ -139,6 +188,18 @@ export const authSlice = createSlice({
       }
     );
     builder.addCase(fetchAsyncGetSubject.rejected, () => {
+      window.location.href = "/login";
+    });
+    builder.addCase(
+      fetchAsyncGetTeacherSubject.fulfilled,
+      (state, action: PayloadAction<READ_SUBJECT[]>) => {
+        return {
+          ...state,
+          subjects: action.payload,
+        };
+      }
+    );
+    builder.addCase(fetchAsyncGetTeacherSubject.rejected, () => {
       window.location.href = "/login";
     });
     builder.addCase(
@@ -162,5 +223,6 @@ export const selectSubjects = (state: RootState) => state.auth.subjects;
 export const selectEditedComment = (state: RootState) =>
   state.auth.editedComment;
 export const selectModalState = (state: RootState) => state.auth.modalState;
+export const selectFormState = (state: RootState) => state.auth.formState;
 
 export default authSlice.reducer;

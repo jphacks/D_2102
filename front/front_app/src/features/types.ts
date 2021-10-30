@@ -31,11 +31,15 @@ export interface POST_COMMENT {
 export interface MODAL_STATE {
   modalOpen: boolean;
 }
+export interface FORM_STATE {
+  formNumber: number;
+}
 export interface AUTH_STATE {
   loginUser: USER;
   subjects: READ_SUBJECT[];
   editedComment: POST_COMMENT;
   modalState: MODAL_STATE;
+  formState: FORM_STATE;
 }
 
 /*studentHomeSlice.ts*/
@@ -71,8 +75,17 @@ export interface STUDENT_HOME_STATE {
   news: READ_NEWS[];
   comments: READ_COMMENT[];
 }
+/*teacherHomeSlice.ts*/
+export interface TEACHER_HOME_STATE {
+  comments: READ_COMMENT[];
+}
 
 /*commentSlice.ts*/
+export interface POST_REPLY {
+  subjectsId: number;
+  commentContent: string;
+  commentIsAnswered: number;
+}
 export interface READ_COMMENT_STATE {
   student: READ_COMMENT[];
   teacher: READ_COMMENT[] | undefined;
@@ -81,6 +94,7 @@ export interface COMMENT_STATE {
   studentComment: READ_COMMENT[];
   teacherComment: READ_COMMENT[];
   textpearComments: READ_COMMENT[];
+  editedReply: POST_REPLY;
 }
 export interface POST_VOTE {
   commentId: number;
