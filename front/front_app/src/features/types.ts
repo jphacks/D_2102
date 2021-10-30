@@ -90,6 +90,10 @@ export interface READ_COMMENT_STATE {
   student: READ_COMMENT[];
   teacher: READ_COMMENT[] | undefined;
 }
+export interface READ_REPLY_STATE {
+  student: READ_COMMENT[];
+  teacher: READ_COMMENT[];
+}
 export interface COMMENT_STATE {
   studentComment: READ_COMMENT[];
   teacherComment: READ_COMMENT[];

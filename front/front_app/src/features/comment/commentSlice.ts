@@ -6,6 +6,7 @@ import {
   READ_COMMENT_STATE,
   POST_VOTE,
   RESPONSE_STATUS,
+  READ_REPLY_STATE,
   READ_COMMENT,
   POST_REPLY,
 } from "../types";
@@ -48,6 +49,23 @@ export const fetchAsyncGetTextpearComment = createAsyncThunk(
   async (commentId: number) => {
     const res = await axios.get<READ_COMMENT[]>(
       `${process.env.REACT_APP_API_URL}/api/comment/textpear/${commentId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.localJWT}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
+export const fetchAsyncCreateReply = createAsyncThunk(
+  "comment/createReply",
+  async (reply: POST_REPLY) => {
+    const res = await axios.post<READ_REPLY_STATE>(
+      `${process.env.REACT_APP_API_URL}/api/teacher/reply/`,
+      reply,
       {
         headers: {
           "Content-Type": "application/json",
@@ -155,6 +173,20 @@ export const commentSlice = createSlice({
     );
     builder.addCase(fetchAsyncGetTextpearComment.rejected, () => {
       window.location.href = "/login";
+    });
+    builder.addCase(
+      fetchAsyncCreateReply.fulfilled,
+      (state, action: PayloadAction<READ_REPLY_STATE>) => {
+        return {
+          ...state,
+          teacherComment: action.payload.teacher,
+          studentComment: action.payload.student,
+          editedReply: initialState.editedReply,
+        };
+      }
+    );
+    builder.addCase(fetchAsyncCreateReply.rejected, () => {
+      window.location.href = "/";
     });
   },
 });

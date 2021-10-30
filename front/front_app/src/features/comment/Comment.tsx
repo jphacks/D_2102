@@ -8,9 +8,11 @@ import {
   selectStudentComment,
   selectTeacherComment,
   selectTextpearComments,
+  selectEditedReply,
   fetchAsyncGetComment,
   fetchAsyncCreateVote,
   fetchAsyncGetTextpearComment,
+  editReply,
 } from "./commentSlice";
 import { handleOpen } from "../auth/authSlice";
 
@@ -45,6 +47,7 @@ const Comment: React.FC<CommentProps> = (props) => {
   const studentComment = useSelector(selectStudentComment);
   const teacherComment = useSelector(selectTeacherComment);
   const textpearComments = useSelector(selectTextpearComments);
+  const editedReply = useSelector(selectEditedReply);
 
   const userType = localStorage.getItem("localUserTyoe");
 
@@ -118,6 +121,13 @@ const Comment: React.FC<CommentProps> = (props) => {
               color="primary"
               startIcon={<ChatBubbleIcon />}
               onClick={() => {
+                dispatch(
+                  editReply({
+                    ...editedReply,
+                    subjectsId: studentComment[0].subjectsId,
+                    commentIsAnswered: studentComment[0].commentId,
+                  })
+                );
                 dispatch(
                   handleOpen({
                     formNumber: 2,
