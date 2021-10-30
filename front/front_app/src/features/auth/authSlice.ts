@@ -72,6 +72,22 @@ export const fetchAsyncGetSubject = createAsyncThunk(
   }
 );
 
+export const fetchAsyncGetTeacherSubject = createAsyncThunk(
+  "auth/getTeacherSubject",
+  async () => {
+    const res = await axios.get<READ_SUBJECT[]>(
+      `${process.env.REACT_APP_API_URL}/api/teacher/subject/`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.localJWT}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
 export const fetchAsyncCreateComment = createAsyncThunk(
   "auth/createComment",
   async (comment: POST_COMMENT) => {
@@ -167,6 +183,18 @@ export const authSlice = createSlice({
       }
     );
     builder.addCase(fetchAsyncGetSubject.rejected, () => {
+      window.location.href = "/login";
+    });
+    builder.addCase(
+      fetchAsyncGetTeacherSubject.fulfilled,
+      (state, action: PayloadAction<READ_SUBJECT[]>) => {
+        return {
+          ...state,
+          subjects: action.payload,
+        };
+      }
+    );
+    builder.addCase(fetchAsyncGetTeacherSubject.rejected, () => {
       window.location.href = "/login";
     });
     builder.addCase(
