@@ -227,6 +227,8 @@ public class Controller {
         }
     }
 
+
+
     @CrossOrigin
     @GetMapping("/teacher/comment/notAnswered")
     public ResponseEntity<String> teacherCommentNotAnsweredControl(HttpServletRequest httpRequest) {
@@ -234,6 +236,18 @@ public class Controller {
         String usersId = JwtToken.verify(responseHeader);
         if(!usersId.equals("Exception")){
             return commentService.commentTeacherNotAnswered(usersId, requestHeaders);
+        }else{
+            return createFailedJson();
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping("/teacher/reply")
+    public ResponseEntity<String> teacherReplyControl(@RequestBody Comment comment, HttpServletRequest httpRequest) {
+        String responseHeader = httpRequest.getHeader("Authorization");
+        String usersId = JwtToken.verify(responseHeader);
+        if(!usersId.equals("Exception")){
+            return postCommentService.postReplyComment(comment, usersId, requestHeaders);
         }else{
             return createFailedJson();
         }

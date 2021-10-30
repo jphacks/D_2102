@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PostCommentService {
@@ -65,6 +66,40 @@ public class PostCommentService {
         int sqlStatus = jdbcTemplate.update(query, vote.getCommentId(), Integer.parseInt(id));
         if(sqlStatus > 0){
             root.put("status", "success");
+        }else{
+            root.put("status", "failed");
+        }
+
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = new ResponseEntity<String>(mapper.writeValueAsString(root), header, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+
+    }
+
+
+    public ResponseEntity<String> postReplyComment(Comment comment, String id, HttpHeaders header){
+
+        String query = "INSERT INTO comments(\n" +
+                "    users_id, subjects_id, comment_content, comment_is_answered\n" +
+                ") values(\n" +
+                "    ?, ?, ?, 0\n" +
+                ")";
+
+        String updateQuery = "UPDATE comments SET comment_is_answered = ? where comment_id = ?";
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+        int sqlStatus = jdbcTemplate.update(query, Integer.parseInt(id), comment.getSubjectsId(), comment.getCommentContent());
+        if(sqlStatus > 0){
+            List<Map<String, Object>> lastId =  jdbcTemplate.queryForList("SELECT LAST_INSERT_ID() as last_id");
+            System.out.println(lastId.get(0).get("last_id"));
+            jdbcTemplate.update(updateQuery, lastId.get(0).get("last_id"), comment.getCommentIsAnswered());
+            return commentService.commentDetail(String.valueOf(comment.getCommentIsAnswered()), id, header);
         }else{
             root.put("status", "failed");
         }
