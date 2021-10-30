@@ -1,7 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { handleClose } from "../auth/authSlice";
-import { selectEditedReply, editReply } from "./commentSlice";
+import {
+  selectEditedReply,
+  editReply,
+  fetchAsyncCreateReply,
+} from "./commentSlice";
 import { AppDispatch } from "../../app/store";
 
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
@@ -57,7 +61,7 @@ const ReplyForm = () => {
         className={classes.button}
         disabled={isDisabled}
         onClick={() => {
-          // dispatch(fetchAsyncCreateComment(editedComment));
+          dispatch(fetchAsyncCreateReply(editedReply));
           dispatch(handleClose());
         }}
       >
