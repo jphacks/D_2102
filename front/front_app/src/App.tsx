@@ -6,6 +6,7 @@ import {
   selectSubjects,
   selectModalState,
   fetchAsyncGetUser,
+  fetchAsyncGetTeacher,
   fetchAsyncGetSubject,
   handleClose,
   handleOpen,
@@ -141,6 +142,8 @@ export const App: React.FC = ({ children }) => {
   const loginUser = useSelector(selectLoginUser);
   const subjects = useSelector(selectSubjects);
 
+  const userType = localStorage.getItem("localUserTyoe");
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -165,8 +168,10 @@ export const App: React.FC = ({ children }) => {
 
   useEffect(() => {
     const fetchBootLoader = async () => {
-      await dispatch(fetchAsyncGetUser());
-      await dispatch(fetchAsyncGetSubject());
+      return userType === "student"
+        ? (await dispatch(fetchAsyncGetUser()),
+          await dispatch(fetchAsyncGetSubject()))
+        : await dispatch(fetchAsyncGetTeacher());
     };
     fetchBootLoader();
   }, [dispatch]);
@@ -220,10 +225,12 @@ export const App: React.FC = ({ children }) => {
           <div className={styles.app__userBox}>
             <p className={styles.app__name}>
               {loginUser.usersName}
-              {loginUser.studentGroupId === null && <>先生</>}
+              {userType === "teacher" && <>先生</>}
             </p>
             <p className={styles.app__scholl}>{loginUser.schoolsName}</p>
-            <p className={styles.app__scholl}>{loginUser.studentGroupName}</p>
+            <p className={styles.app__scholl}>
+              {userType === "student" && loginUser.studentGroupName}
+            </p>
           </div>
           <Divider />
           <List>
@@ -266,22 +273,23 @@ export const App: React.FC = ({ children }) => {
                 <ListItemText primary="学校からのお知らせ" />
               </ListItem>
             </NavLink>
-            {subjects.map((subject, index) => (
-              <NavLink
-                exact
-                to={"/room/" + subject.subjectsId}
-                className={styles.app__nav}
-                activeStyle={current}
-                key={index}
-              >
-                <ListItem button key={subject.subjectsId}>
-                  <ListItemIcon>
-                    <SensorDoorRoundedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={subject.subjectsName + "の部屋"} />
-                </ListItem>
-              </NavLink>
-            ))}
+            {userType === "student" &&
+              subjects.map((subject, index) => (
+                <NavLink
+                  exact
+                  to={"/room/" + subject.subjectsId}
+                  className={styles.app__nav}
+                  activeStyle={current}
+                  key={index}
+                >
+                  <ListItem button key={subject.subjectsId}>
+                    <ListItemIcon>
+                      <SensorDoorRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={subject.subjectsName + "の部屋"} />
+                  </ListItem>
+                </NavLink>
+              ))}
           </List>
           <Button
             className={classes.button}
@@ -293,7 +301,7 @@ export const App: React.FC = ({ children }) => {
               dispatch(handleOpen());
             }}
           >
-            質問を投稿する
+            {userType === "student" ? "質問を投稿する" : "お知らせを投稿する"}
           </Button>
           <Divider />
           <List>
