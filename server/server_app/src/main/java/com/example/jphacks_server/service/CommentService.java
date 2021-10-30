@@ -186,6 +186,8 @@ public class CommentService {
             e.printStackTrace();
         }
 
+        System.out.println(comment.size());
+
 
 
         int nextComment = comment.get(0).getCommentIsAnswered();
