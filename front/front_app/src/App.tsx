@@ -8,6 +8,7 @@ import {
   fetchAsyncGetUser,
   fetchAsyncGetTeacher,
   fetchAsyncGetSubject,
+  fetchAsyncGetTeacherSubject,
   handleClose,
   handleOpen,
 } from "./features/auth/authSlice";
@@ -171,7 +172,8 @@ export const App: React.FC = ({ children }) => {
       return userType === "student"
         ? (await dispatch(fetchAsyncGetUser()),
           await dispatch(fetchAsyncGetSubject()))
-        : await dispatch(fetchAsyncGetTeacher());
+        : (await dispatch(fetchAsyncGetTeacher()),
+          await dispatch(fetchAsyncGetTeacherSubject()));
     };
     fetchBootLoader();
   }, [dispatch]);
@@ -273,23 +275,22 @@ export const App: React.FC = ({ children }) => {
                 <ListItemText primary="学校からのお知らせ" />
               </ListItem>
             </NavLink>
-            {userType === "student" &&
-              subjects.map((subject, index) => (
-                <NavLink
-                  exact
-                  to={"/room/" + subject.subjectsId}
-                  className={styles.app__nav}
-                  activeStyle={current}
-                  key={index}
-                >
-                  <ListItem button key={subject.subjectsId}>
-                    <ListItemIcon>
-                      <SensorDoorRoundedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={subject.subjectsName + "の部屋"} />
-                  </ListItem>
-                </NavLink>
-              ))}
+            {subjects.map((subject, index) => (
+              <NavLink
+                exact
+                to={"/room/" + subject.subjectsId}
+                className={styles.app__nav}
+                activeStyle={current}
+                key={index}
+              >
+                <ListItem button key={subject.subjectsId}>
+                  <ListItemIcon>
+                    <SensorDoorRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={subject.subjectsName + "の部屋"} />
+                </ListItem>
+              </NavLink>
+            ))}
           </List>
           <Button
             className={classes.button}
