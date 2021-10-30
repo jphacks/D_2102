@@ -40,6 +40,7 @@ public class HttpRequest {
             con.setRequestProperty("Content-Type", "application/JSON; charset=utf-8");
             OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
             String postParam = "{\"app_id\":\"" + appKey + "\",  \"text1\":\"" + target + "\", \"text2\":\"" + inspection + "\"}";
+            System.out.println(postParam);
             out.write(postParam);
 
             out.close();
@@ -81,7 +82,7 @@ public class HttpRequest {
             }
         }
 
-        System.out.println(result.toString());
+        System.out.println(result.toString() );
 
 
         return result.toString();
