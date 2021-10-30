@@ -9,6 +9,7 @@ import {
   READ_SUBJECT,
   POST_COMMENT,
   READ_COMMENT,
+  FORM_STATE,
 } from "../types";
 
 export const fetchAsyncLogin = createAsyncThunk(
@@ -124,6 +125,9 @@ const initialState: AUTH_STATE = {
   modalState: {
     modalOpen: false,
   },
+  formState: {
+    formNumber: 0,
+  },
 };
 
 export const authSlice = createSlice({
@@ -136,8 +140,9 @@ export const authSlice = createSlice({
     handleClose: (state) => {
       state.modalState.modalOpen = false;
     },
-    handleOpen: (state) => {
+    handleOpen: (state, action: PayloadAction<FORM_STATE>) => {
       state.modalState.modalOpen = true;
+      state.formState = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -218,5 +223,6 @@ export const selectSubjects = (state: RootState) => state.auth.subjects;
 export const selectEditedComment = (state: RootState) =>
   state.auth.editedComment;
 export const selectModalState = (state: RootState) => state.auth.modalState;
+export const selectFormState = (state: RootState) => state.auth.formState;
 
 export default authSlice.reducer;

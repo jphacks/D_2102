@@ -5,6 +5,7 @@ import {
   selectLoginUser,
   selectSubjects,
   selectModalState,
+  selectFormState,
   fetchAsyncGetUser,
   fetchAsyncGetTeacher,
   fetchAsyncGetSubject,
@@ -13,6 +14,7 @@ import {
   handleOpen,
 } from "./features/auth/authSlice";
 import QuestionForm from "./features/auth/QuestionForm";
+import ReplyForm from "./features/comment/ReplyForm";
 
 import { NavLink } from "react-router-dom";
 
@@ -44,6 +46,7 @@ import SensorDoorRoundedIcon from "@mui/icons-material/SensorDoorRounded";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { Replay } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
@@ -132,6 +135,7 @@ export const App: React.FC = ({ children }) => {
   const [open, setOpen] = useState(false);
 
   const modalState = useSelector(selectModalState);
+  const formState = useSelector(selectFormState);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalStyle] = useState(getModalStyle);
@@ -167,6 +171,15 @@ export const App: React.FC = ({ children }) => {
     display: "inline-block",
   };
 
+  const formComponent = () => {
+    switch (formState.formNumber) {
+      case 1:
+        return <QuestionForm />;
+      case 2:
+        return <ReplyForm />;
+    }
+  };
+
   useEffect(() => {
     const fetchBootLoader = async () => {
       return userType === "student"
@@ -197,7 +210,7 @@ export const App: React.FC = ({ children }) => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              知りたいもん
+              しりたいもん
             </Typography>
           </Toolbar>
         </AppBar>
@@ -299,7 +312,11 @@ export const App: React.FC = ({ children }) => {
             color="primary"
             startIcon={<AddCircleOutlineIcon />}
             onClick={() => {
-              dispatch(handleOpen());
+              dispatch(
+                handleOpen({
+                  formNumber: 1,
+                })
+              );
             }}
           >
             {userType === "student" ? "質問を投稿する" : "お知らせを投稿する"}
@@ -333,7 +350,7 @@ export const App: React.FC = ({ children }) => {
       </Box>
       <Modal open={modalOpen} onClose={() => dispatch(handleClose())}>
         <div style={modalStyle} className={classes.paper}>
-          <QuestionForm />
+          {formComponent()}
         </div>
       </Modal>
     </div>
